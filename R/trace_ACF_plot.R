@@ -50,12 +50,17 @@ trace_ACF_plot <- function(x,var="P", ACF=FALSE, nplot=0,saveFile=FALSE,...){
     }
     #grid<-ceiling(sqrt(nplot))
 
+    graphics::par(mfrow=c(4,4))
+
     for(i in sel.id){
+
+      if( length(sel.id > 16)){
       j<-j+1
       if(j %%16 ==1){
-        grDevices::X11();
+         grDevices::X11();
         graphics::par(mfrow=c(4,4))
-      }
+      } }
+
       y <- coda::mcmc.list(x$codaSamples[,i])
       xp <- as.vector(stats::time(y))
       yp <- if (coda::nvar(y) > 1) {
