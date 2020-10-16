@@ -23,8 +23,8 @@
 #' q=nrow(muP)
 #' out.Elpaso <- bmrm(Y,q,muP, nAdapt=1000,nBurnIn=5000,nIter=5000,nThin=1)
 #' trace_ACF_plot_indiv(out.Elpaso,"P")
-#' trace_ACF_plot_indiv(out.Elpaso,"P",souceID=2, varID=3 )
-#' trace_ACF_plot_indiv(out.Elpaso,"A", obsID=10, souceID=2 )
+#' trace_ACF_plot_indiv(out.Elpaso,"P",sourceID=2, varID=3 )
+#' trace_ACF_plot_indiv(out.Elpaso,"A", obsID=10, sourceID=2 )
 #' trace_ACF_plot_indiv(out.Elpaso,"Sigma", varID=3)
 #' }
 #'
