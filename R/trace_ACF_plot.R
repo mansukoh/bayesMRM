@@ -51,7 +51,7 @@ trace_ACF_plot <- function(x,var="P", ACF=FALSE, nplot=0,saveFile=FALSE,...){
     #nfrow= ifelse( nplot < 16, 3, 4)
     #nfrow=max( as.integer(nplot/4) + ( nplot%%4 != 0) , 4)
     par("mar")
-    par(mar=c(2,2,2,2))
+    par(mar=c(1.2,1.2,1.2,1.2))
 
 
     for(i in sel.id){
