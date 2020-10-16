@@ -61,8 +61,8 @@ trace_ACF_plot <- function(x,var="P",nplot=3,saveFile=FALSE,...){
       yp <- do.call("cbind", yp)
       graphics::matplot(xp, yp, xlab = "Iterations", ylab = "", type = 'l',
               col = 4:4,main=var.list[i])
-      ESS<-coda::effectiveSize(y)
-      stats:: acf(as.matrix(y),main=paste0("ESS=",round(ESS,2)))
+      #ESS<-coda::effectiveSize(y)
+      stats:: acf(as.matrix(y),main="") #paste0("ESS=",round(ESS,2)))
     }
   } else{
     grDevices::pdf(paste0(var,"-trace.pdf"),width=6,height=4,paper='special')
@@ -80,9 +80,8 @@ trace_ACF_plot <- function(x,var="P",nplot=3,saveFile=FALSE,...){
       graphics::matplot(xp, yp, xlab = "Iterations", ylab = "", type = 'l',
                         col = 4:4,main=var.list[i])
       #ESS<-coda::effectiveSize(y)
-      #stats:: acf(as.matrix(y),main=paste0("ESS=",round(ESS,2)))
-      stats:: acf(as.matrix(y))
-      }
+      stats:: acf(as.matrix(y),main="") #paste0("ESS=",round(ESS,2)))
+       }
     grDevices::dev.off()
     print(paste0("Save as ", getwd(),"/",var,"-trace.pdf"))
   }
