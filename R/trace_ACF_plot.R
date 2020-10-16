@@ -1,23 +1,23 @@
-#' 
+#'
 #' @description Produce trace and Auto-Correlation Function
-#'   plots of MCMC samples 
-#'  of randomly selected element of A or P or Sigma. 
+#'   plots of MCMC samples
+#'  of randomly selected element of A or P or Sigma.
 #' @title Trace and ACF plots of randomly selected elements of a variable
-#'  in \code{bmrm} object 
+#'  in \code{bmrm} object
 #' @usage trace_ACF_plot(x,var="P",nplot=3,saveFile=FALSE,...)
 #' @param x an object of class \code{bmrm}, the output of the \code{bmrm} function
-#' @param var name of a variable to which the plots apply.  It sould be one of 
-#' "A" (source contribution matrix), 
-#' "P" (source composition or profile matrix), 
+#' @param var name of a variable to which the plots apply.  It sould be one of
+#' "A" (source contribution matrix),
+#' "P" (source composition or profile matrix),
 #' "Sigma" (error variance).
 #' @param nplot number of elements to be selected randomly (default=3)
-#' @param saveFile TRUE/FALSE, save the plots in file 
+#' @param saveFile TRUE/FALSE, save the plots in file
 #' \emph{'var'-trace.pdf} (default=FALSE)
 #' @param ... arguments to be passed to methods
 #' @details produces trace and auto-correlation function plots of
-#' the MCMC samples of randomly selected \code{'nplot'} elements of \code{'var'} 
+#' the MCMC samples of randomly selected \code{'nplot'} elements of \code{'var'}
 #' in \code{bmrm} object \code{'x'}. If \code{'nplot'}= total number of elements of
-#' \code{'var'} then the trace and ACF plots of all elements of 'var' will be provided. 
+#' \code{'var'} then the trace and ACF plots of all elements of 'var' will be provided.
 #' @export
 #' @examples
 #' \dontrun{
@@ -29,10 +29,10 @@
 #' trace_ACF_plot(out.Elpaso,"P",saveFile=TRUE)
 #' trace_ACF_plot(out.Elpaso,"A",nplot=2)
 #' }
-#' 
+#'
 
 trace_ACF_plot <- function(x,var="P",nplot=3,saveFile=FALSE,...){
-  
+
   var.list<-coda::varnames(x$codaSamples)
   var.list1<-unlist(lapply(var.list,function(x) strsplit(x,"\\[")[[1]][1]))
   id.list<-which(var.list1==var)
@@ -42,13 +42,13 @@ trace_ACF_plot <- function(x,var="P",nplot=3,saveFile=FALSE,...){
        sel.id<-sample(id.list,size=nplot,replace=FALSE)
      } else{
        sel.id<-id.list
-    }   
+    }
     #grid<-ceiling(sqrt(nplot))
 
     for(i in sel.id){
       j<-j+1
-      if(j %%3 ==1){ 
-        grDevices::X11();    
+      if(j %%3 ==1){
+        grDevices::X11();
         graphics::par(mfrow=c(3,2))
       }
       y <- coda::mcmc.list(x$codaSamples[,i])
@@ -59,7 +59,7 @@ trace_ACF_plot <- function(x,var="P",nplot=3,saveFile=FALSE,...){
         y
       }
       yp <- do.call("cbind", yp)
-      graphics::matplot(xp, yp, xlab = "Iterations", ylab = "", type = 'l', 
+      graphics::matplot(xp, yp, xlab = "Iterations", ylab = "", type = 'l',
               col = 4:4,main=var.list[i])
       ESS<-coda::effectiveSize(y)
       stats:: acf(as.matrix(y),main=paste0("ESS=",round(ESS,2)))
@@ -77,12 +77,13 @@ trace_ACF_plot <- function(x,var="P",nplot=3,saveFile=FALSE,...){
         y
       }
       yp <- do.call("cbind", yp)
-      graphics::matplot(xp, yp, xlab = "Iterations", ylab = "", type = 'l', 
+      graphics::matplot(xp, yp, xlab = "Iterations", ylab = "", type = 'l',
                         col = 4:4,main=var.list[i])
-      ESS<-coda::effectiveSize(y)
-      stats:: acf(as.matrix(y),main=paste0("ESS=",round(ESS,2)))
-    }
+      #ESS<-coda::effectiveSize(y)
+      #stats:: acf(as.matrix(y),main=paste0("ESS=",round(ESS,2)))
+      stats:: acf(as.matrix(y))
+      }
     grDevices::dev.off()
-    print(paste0("Save as ", getwd(),"/",var,"-trace.pdf"))    
+    print(paste0("Save as ", getwd(),"/",var,"-trace.pdf"))
   }
  }
