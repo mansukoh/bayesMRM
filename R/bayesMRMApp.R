@@ -44,13 +44,13 @@ bayesMRMApp<-function(x){
                               label = shiny::h3((shiny::strong("Parameter"))),
                               choices=list("P","A","Sigma"),selected="P"),
           shiny::br(),
-          shiny::h4(shiny::strong("Convergence Diagnostics")),
+          shiny::h4(shiny::strong("Conv Diag")),
           shiny::radioButtons("convdiag",
                               label = shiny::h4(" "),
                               choices=list( "geweke",
                                            "heidel"),selected="geweke"),
           shiny::br(),
-          shiny::h4(shiny::strong("Selection for trace_ACF plot")),
+          shiny::h4(shiny::strong("ID for Trace_ACF plot")),
           shiny::numericInput("source",
                               label = shiny::h4("Source ID"),
                               value=1,min=1,max=x$nsource),
@@ -64,7 +64,7 @@ bayesMRMApp<-function(x){
                               value=1,min=1,max=x$nobs),
           width=3),
 
-        # Show a plot of the generated distribution
+
         shiny::mainPanel(
           shiny::tabsetPanel(
             shiny::tabPanel(shiny::h4(shiny::strong("Plots")),
@@ -73,10 +73,12 @@ bayesMRMApp<-function(x){
                             shiny::tableOutput("showest")),
             shiny::tabPanel(shiny::h4(shiny::strong("Quantiles")),
                             shiny::tableOutput("showquant")),
-            shiny::tabPanel(shiny::h4(shiny::strong("Convergence Diagnostics")),
+            shiny::tabPanel(shiny::h4(shiny::strong("ConvDiag")),
                             shiny::tableOutput("showconv")),
-            shiny::tabPanel(shiny::h4(shiny::strong("trace_ACF Plot")),
-                            shiny::plotOutput("showMCMC"))
+            shiny::tabPanel(shiny::h4(shiny::strong("Trace Plot")),
+                            shiny::plotOutput("showMCMC")),
+            shiny::tabPanel(shiny::h4(shiny::strong("Trace_ACF Plot")),
+                            shiny::plotOutput("showMCMC_ele"))
           )
         )
       )), #end ui
@@ -152,11 +154,12 @@ bayesMRMApp<-function(x){
         }
       })
       output$showMCMC <- shiny::renderPlot({
-  #      trace_ACF_plot_indiv(x,var=input$type,sourceID=input$source,
-  #                            varID=input$var,obsID=input$obs)
-              trace_ACF_plot(x,var=input$type, nplot=16)
-
-            })
+                trace_ACF_plot(x,var=input$type, nplot=12)
+      })
+      output$showMCMC_ele <- shiny::renderPlot({
+              trace_ACF_plot_indiv(x,var=input$type,sourceID=input$source,
+                                    varID=input$var,obsID=input$obs)
+      })
     }#end server
   )#end App
   shiny::runApp(EMS_app,launch.browser=TRUE)
