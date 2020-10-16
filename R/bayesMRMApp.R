@@ -1,16 +1,16 @@
 #' @title Shiny App for exploring the results of Bayesian multivariate receptor modeling
-#' 
-#' @description Call Shiny to show the results of Bayesian analysis of 
-#' multivariate receptor modeling in a web-based application. 
+#'
+#' @description Call Shiny to show the results of Bayesian analysis of
+#' multivariate receptor modeling in a web-based application.
 #' This object contains
 #'  \itemize{
-#'  \item plot of the posterior median and 95\% posterior interval of a variable in 
+#'  \item plot of the posterior median and 95\% posterior interval of a variable in
 #' an object of class \code{bmrm}.
-#'  \item table of the posterior quantiles of a variable in 
+#'  \item table of the posterior quantiles of a variable in
 #' an object of class \code{bmrm}, for prob=(0.025, 0.05, 0.25, 0.5, 0.75, 0.95, 0.975).
-#'  \item table of convergence diagnostics measures on MCMC samples of  
-#' a variable in an object of class \code{bmrm}.   
-#'  \item time series and ACF plots of an element of a variable in an 
+#'  \item table of convergence diagnostics measures on MCMC samples of
+#' a variable in an object of class \code{bmrm}.
+#'  \item time series and ACF plots of an element of a variable in an
 #'  object of class \code{bmrm}.
 #'  }
 #' @usage bayesMRMApp(x)
@@ -21,7 +21,7 @@
 #' data(Elpaso)
 #' Y=Elpaso$Y ; muP=Elpaso$muP
 #' q=nrow(muP)
-#' out.Elpaso <- bmrm(Y,q,muP, nAdapt=1000,nBurnIn=5000,nIter=5000,nThin=1)
+#' out.Elpaso <- bmrm(Y,q,muP, nAdapt=1000,nBurnIn=1000,nIter=5000,nThin=1)
 #' bayesMRMApp(out.Elpaso)
 #' }
 
@@ -33,11 +33,11 @@ bayesMRMApp<-function(x){
   server<-NULL
   EMS_app=shiny::shinyApp(
     ui=shiny::fluidPage(
-      theme=shinythemes::shinytheme("cerulean"), 
+      theme=shinythemes::shinytheme("cerulean"),
       # Application title
       shiny::titlePanel(shiny::h1(shiny::strong("Explore bayesMRM output"))),
-      
-      # Sidebar with a slider input for number of bins 
+
+      # Sidebar with a slider input for number of bins
       shiny::sidebarLayout(
         shiny::sidebarPanel(
           shiny::radioButtons("type",
@@ -47,28 +47,28 @@ bayesMRMApp<-function(x){
           shiny::h4(shiny::strong("Convergence Diagnostics")),
           shiny::radioButtons("convdiag",
                               label = shiny::h4(" "),
-                              choices=list( "geweke", 
-                                           "heidel"),selected="heidel"),
+                              choices=list( "geweke",
+                                           "heidel"),selected="geweke"),
           shiny::br(),
           shiny::h4(shiny::strong("Selection for trace_ACF plot")),
-          shiny::numericInput("source", 
-                              label = shiny::h4("Source ID"), 
+          shiny::numericInput("source",
+                              label = shiny::h4("Source ID"),
                               value=1,min=1,max=x$nsource),
-          shiny::selectInput("var", 
-                             label = shiny::h4("Variable ID"), 
-                             #value=1,min=1,max=x$nvar), 
+          shiny::selectInput("var",
+                             label = shiny::h4("Variable ID"),
+                             #value=1,min=1,max=x$nvar),
                              choices=varchoice,
                              selected=1),
-          shiny::numericInput("obs", 
-                              label = shiny::h4("Observation ID"), 
+          shiny::numericInput("obs",
+                              label = shiny::h4("Observation ID"),
                               value=1,min=1,max=x$nobs),
           width=3),
-        
+
         # Show a plot of the generated distribution
         shiny::mainPanel(
           shiny::tabsetPanel(
             shiny::tabPanel(shiny::h4(shiny::strong("Plots")),
-                            shiny::plotOutput("plot")),            
+                            shiny::plotOutput("plot")),
             shiny::tabPanel(shiny::h4(shiny::strong("Estimates")),
                             shiny::tableOutput("showest")),
             shiny::tabPanel(shiny::h4(shiny::strong("Quantiles")),
@@ -80,9 +80,9 @@ bayesMRMApp<-function(x){
           )
         )
       )), #end ui
-    
+
     server<-function(input,output,session){
-      
+
       output$plot <- shiny::renderPlot({
         plot.bmrm(x,type=input$type)
       })
@@ -90,7 +90,7 @@ bayesMRMApp<-function(x){
         if(input$type=="A"){
           T<-x$A.hat
           T <- data.frame(obs=1:x$nobs,T)
-          colnames(T)[-1]<-paste0("source",1:x$nsource) 
+          colnames(T)[-1]<-paste0("source",1:x$nsource)
           T
         }else if(input$type=="P"){
           T<-x$P.hat
@@ -109,23 +109,23 @@ bayesMRMApp<-function(x){
           keep.colname<-colnames(T)
           T <- data.frame(source=rep(paste("source",1:x$nsource),x$nobs),
                           obs=rep(1:x$nobs,each=x$nsource),T)
-          colnames(T)[-(1:2)]<-keep.colname  
+          colnames(T)[-(1:2)]<-keep.colname
           T
         } else if(input$type=="P"){
           T<-x$P.quantiles
           keep.colname<-colnames(T)
           T <- data.frame(source=rep(paste("source",1:x$nsource),x$nvar),
                           variable=rep(colnames(x$Y),each=x$nsource),T)
-          colnames(T)[-(1:2)]<-keep.colname  
+          colnames(T)[-(1:2)]<-keep.colname
           T
         } else if(input$type=="Sigma"){
           T<-x$Sigma.quantiles
           keep.colname<-colnames(T)
           T<-data.frame(variable=colnames(x$Y),T)
-          colnames(T)[-1]<-keep.colname  
+          colnames(T)[-1]<-keep.colname
           T
-        } 
-      })    
+        }
+      })
       output$showconv <- shiny::renderTable({
         T<-convdiag_bmrm(x,var=input$type,convdiag=input$convdiag,
                          print=FALSE)
@@ -134,20 +134,20 @@ bayesMRMApp<-function(x){
         } else if(input$convdiag == "heidel"){
           T <- T$heidel
         }
-        keep.colname<-colnames(T)      
+        keep.colname<-colnames(T)
         if(input$type=="A"){
           T<-data.frame(source=rep(paste0("source",1:x$nsource),each=x$nobs),
                         obs=rep(1:x$nobs,x$nsource),T)
-          colnames(T)[-(1:2)]<-keep.colname  
+          colnames(T)[-(1:2)]<-keep.colname
           T
         } else if(input$type=="P"){
           T<-data.frame(source=rep(paste0("source",1:x$nsource),x$nvar),
                         variable=rep(colnames(x$Y),each=x$nsource),T)
-          colnames(T)[-(1:2)]<-keep.colname  
+          colnames(T)[-(1:2)]<-keep.colname
           T
         } else if(input$type=="Sigma"){
           T=data.frame(variable=colnames(x$Y),T)
-          colnames(T)[-1]<-keep.colname  
+          colnames(T)[-1]<-keep.colname
           T
         }
       })
