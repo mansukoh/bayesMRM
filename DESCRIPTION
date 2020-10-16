@@ -1,12 +1,14 @@
 Package: bayesMRM
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Title: Bayesian Multivariate Receptor Modeling
+Version: 0.1.3
+Author: Man-Suk Oh, Eun Sug Park, Eun-Kyung Lee
+Maintainer: Man-Suk Oh <msoh@ewha.ac.kr>
+Description: Bayesian analysis of multivariate receptor modeling. The package consists of implementations of the method of Park and Oh (2015) <https://doi.org/10.1016/j.chemolab.2015.08.021>.The package uses JAGS to generate Markov chain Monte Carlo samples of parameters. 
+Date: 2020-08-22
+Depends: R (>= 3.5.0)
+License: GPL (>= 2)
 Encoding: UTF-8
-LazyData: true
+Imports: rjags, coda, ggplot2,tibble,grDevices,graphics,gridExtra,rgl,shiny,shinythemes,crayon
+Suggests: stats
 RoxygenNote: 7.1.1
