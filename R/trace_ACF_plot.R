@@ -48,16 +48,17 @@ trace_ACF_plot <- function(x,var="P", ACF=FALSE, nplot=0,saveFile=FALSE,...){
        sel.id<-id.list
     }
 
-    if( nplot < 16) nfrow=3
-
+    #nfrow= ifelse( nplot < 16, 3, 4)
     #nfrow=max( as.integer(nplot/4) + ( nplot%%4 != 0) , 4)
+    par("mar")
+    par(mar=c(1,1,1,1))
 
 
     for(i in sel.id){
       j<-j+1
-      if(j %%(3*4) ==1){
+      if(j %%(4*4) ==1){
          if( j >1 ) grDevices::X11();
-        graphics::par(mfrow=c(3,4))
+        graphics::par(mfrow=c(4,4))
       }
 
       y <- coda::mcmc.list(x$codaSamples[,i])
@@ -75,7 +76,7 @@ trace_ACF_plot <- function(x,var="P", ACF=FALSE, nplot=0,saveFile=FALSE,...){
     }
   } else{
     grDevices::pdf(paste0(var,"-trace_ACF.pdf")) # ,width=6,height=4,paper='special')
-    graphics::par(mfrow=c(3,4))
+    graphics::par(mfrow=c(4,4))
 
     if(length(id.list)>nplot){
       sel.id<-sample(id.list,size=nplot,replace=FALSE)
@@ -94,7 +95,7 @@ trace_ACF_plot <- function(x,var="P", ACF=FALSE, nplot=0,saveFile=FALSE,...){
         y
       }
       yp <- do.call("cbind", yp)
-      graphics::matplot(xp, yp, xlab = "Iterations", ylab = "", type = 'l',
+      graphics::matplot(xp, yp, xlab = "Iteration", ylab = "", type = 'l',
                         col = 4:4,main=var.list[i])
       #ESS<-coda::effectiveSize(y)
       if(ACF == T) stats:: acf(as.matrix(y),main="") #paste0("ESS=",round(ESS,2)))
