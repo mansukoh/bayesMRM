@@ -1,23 +1,26 @@
 #'
 #' @description Produce trace and Auto-Correlation Function
 #'   plots of MCMC samples
-#'  of randomly selected element of A or P or Sigma.
-#' @title Trace and ACF plots of randomly selected elements of a variable
+#'  of  elements of A or P or Sigma.
+#' @title Trace and/or ACF plots of elements of a variable
 #'  in \code{bmrm} object
-#' @usage trace_ACF_plot(x,var="P",nplot=3,saveFile=FALSE,...)
+#' @usage trace_ACF_plot(x,var="P",ACF=FALSE, nplot=16,saveFile=FALSE,...)
 #' @param x an object of class \code{bmrm}, the output of the \code{bmrm} function
 #' @param var name of a variable to which the plots apply.  It sould be one of
 #' "A" (source contribution matrix),
 #' "P" (source composition or profile matrix),
 #' "Sigma" (error variance).
-#' @param nplot number of elements to be selected randomly (default=3)
+#' @param ACF TRUE/FALSE  IF TRUE ACF plot will be provided along with trace
+#'  plot (dafault: FALSE)
+#' @param nplot  number of elements of 'var' for trace/ACF plot. If 'nplot' is
+#'  smaller than the total number of elements of 'var' then trace/ACF plots of
+#'  'nplot' randomly selected elements will be drawn.
+#'   Otherwise, trace/ACF plots of  all elements will be drawn.
+#'    (default=0  implies that all elements will be selected if var="P" or "Sigma"
+#'    and 16 elements will be selected  randomly if  var="A")
 #' @param saveFile TRUE/FALSE, save the plots in file
 #' \emph{'var'-trace.pdf} (default=FALSE)
 #' @param ... arguments to be passed to methods
-#' @details produces trace and auto-correlation function plots of
-#' the MCMC samples of randomly selected \code{'nplot'} elements of \code{'var'}
-#' in \code{bmrm} object \code{'x'}. If \code{'nplot'}= total number of elements of
-#' \code{'var'} then the trace and ACF plots of all elements of 'var' will be provided.
 #' @export
 #' @examples
 #' \dontrun{
@@ -33,7 +36,7 @@
 
 trace_ACF_plot <- function(x,var="P", ACF=FALSE, nplot=0,saveFile=FALSE,...){
 
-  if (var== "P"  & nplot == 0) nplot=q*ncol( x$Y)
+  if (var== "P"  & nplot == 0) nplot=nrow(x$P.hat)*ncol( x$P.hat)
   if (var== "Sigma"  & nplot == 0 ) nplot=ncol( x$Y)
   if (var== "A"  & nplot == 0 ) nplot=16
 
@@ -48,10 +51,8 @@ trace_ACF_plot <- function(x,var="P", ACF=FALSE, nplot=0,saveFile=FALSE,...){
        sel.id<-id.list
     }
 
-    #nfrow= ifelse( nplot < 16, 3, 4)
-    #nfrow=max( as.integer(nplot/4) + ( nplot%%4 != 0) , 4)
-    par("mar")
-    par(mar=rep(4,4))
+    #par("mar")
+    par(mar=rep(2,4))
 
 
     for(i in sel.id){
