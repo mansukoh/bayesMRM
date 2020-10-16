@@ -26,12 +26,17 @@
 #' q=nrow(muP)
 #' out.Elpaso <- bmrm(Y,q,muP, nAdapt=1000,nBurnIn=5000,nIter=5000,nThin=1)
 #' trace_ACF_plot(out.Elpaso,"Sigma")
-#' trace_ACF_plot(out.Elpaso,"P",saveFile=TRUE)
-#' trace_ACF_plot(out.Elpaso,"A",nplot=2)
+#' trace_ACF_plot(out.Elpaso,"P", ACF=T, saveFile=TRUE)
+#' trace_ACF_plot(out.Elpaso,"A", nplot=16)
 #' }
 #'
 
-trace_ACF_plot <- function(x,var="P",nplot=3,saveFile=FALSE,...){
+trace_ACF_plot <- function(x,var="P", ACF=FALSE, nplot=0,saveFile=FALSE,...){
+
+  if (var== "P"  & nplot == 0) nplot=q*ncol( x$Y)
+  if (var== "Sigma"  & nplot == 0 ) nplot=ncol( x$Y)
+  if (var== "A"  & nplot == 0 ) nplot=16
+
 
   var.list<-coda::varnames(x$codaSamples)
   var.list1<-unlist(lapply(var.list,function(x) strsplit(x,"\\[")[[1]][1]))
@@ -47,9 +52,9 @@ trace_ACF_plot <- function(x,var="P",nplot=3,saveFile=FALSE,...){
 
     for(i in sel.id){
       j<-j+1
-      if(j %%3 ==1){
+      if(j %%16 ==1){
         grDevices::X11();
-        graphics::par(mfrow=c(3,2))
+        graphics::par(mfrow=c(4,4))
       }
       y <- coda::mcmc.list(x$codaSamples[,i])
       xp <- as.vector(stats::time(y))
@@ -62,12 +67,20 @@ trace_ACF_plot <- function(x,var="P",nplot=3,saveFile=FALSE,...){
       graphics::matplot(xp, yp, xlab = "Iterations", ylab = "", type = 'l',
               col = 4:4,main=var.list[i])
       #ESS<-coda::effectiveSize(y)
-      stats:: acf(as.matrix(y),main="") #paste0("ESS=",round(ESS,2)))
+      if (ACF==T) stats:: acf(as.matrix(y),main="") #paste0("ESS=",round(ESS,2)))
     }
   } else{
-    grDevices::pdf(paste0(var,"-trace.pdf"),width=6,height=4,paper='special')
-    graphics::par(mfrow=c(1,2))
-    for(i in id.list){
+    grDevices::pdf(paste0(var,"-trace_ACF.pdf")) # ,width=6,height=4,paper='special')
+    graphics::par(mfrow=c(4,4))
+
+    if(length(id.list)>nplot){
+      sel.id<-sample(id.list,size=nplot,replace=FALSE)
+    } else{
+      sel.id<-id.list
+    }
+    #grid<-ceiling(sqrt(nplot))
+
+    for(i in sel.id){
       j<-j+1
       y <- coda::mcmc.list(x$codaSamples[,i])
       xp <- as.vector(stats::time(y))
@@ -80,9 +93,9 @@ trace_ACF_plot <- function(x,var="P",nplot=3,saveFile=FALSE,...){
       graphics::matplot(xp, yp, xlab = "Iterations", ylab = "", type = 'l',
                         col = 4:4,main=var.list[i])
       #ESS<-coda::effectiveSize(y)
-      stats:: acf(as.matrix(y),main="") #paste0("ESS=",round(ESS,2)))
+      if(ACF == T) stats:: acf(as.matrix(y),main="") #paste0("ESS=",round(ESS,2)))
        }
     grDevices::dev.off()
-    print(paste0("Save as ", getwd(),"/",var,"-trace.pdf"))
+    print(paste0("Save as ", getwd(),"/",var,"-trace_ACF.pdf"))
   }
  }
