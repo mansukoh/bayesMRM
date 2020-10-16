@@ -55,6 +55,5 @@ trace_ACF_plot_indiv <- function(x,var="P",sourceID=1,varID=NULL,obsID=1,...){
   #        col = 1:x$nChains,main=id.name)
            col = 4:4,main=id)
   #ESS<-coda::effectiveSize(y)
-  #stats::acf(as.matrix(y),main=paste0("ESS=",round(ESS,2)))
-  stats::acf(as.matrix(y))
-  }
+  stats::acf(as.matrix(y),main="" ) #paste0("ESS=",round(ESS,2)))
+    }
