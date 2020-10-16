@@ -28,23 +28,25 @@
 #' trace_ACF_plot_indiv(out.Elpaso,"Sigma", varID=3)
 #' }
 #'
-trace_ACF_plot_indiv <- function(x,var="P",sourceID=1,varID=NULL,obsID=1,...){
+trace_ACF_plot_indiv <- function(x,var="P",sourceID=1,varID=1,obsID=1,...){
 
-   if(is.null(varID)) varID = colnames(x$Y)[1]
+  varName = colnames(x$Y)[varID]
   time<-j<-NULL
-  varID.list<-coda::varnames(x$codaSamples)
+  #varID.list<-coda::varnames(x$codaSamples)
+  parID.list<-coda::varnames(x$codaSamples)
   if(var=="P"){
     id<-paste0("P[",sourceID,",",varID,"]")
     id.name<-paste0("Trace of P: source",sourceID,", ",
-                    colnames(x$Y)[as.numeric(varID)])
+                    colnames(x$Y)[varID])
   } else if(var=="A"){
      id<-paste0("A[",obsID,",",sourceID,"]")
      id.name<-paste0("Trace of A: source",sourceID,", observation ID ",obsID)
   } else if(var=="Sigma"){
      id<-paste0("Sigma[",varID,"]")
-     id.name<-paste0("Trace of Sigma: ", colnames(x$Y)[as.numeric(varID)])
+     id.name<-paste0("Trace of Sigma: ", colnames(x$Y)[varID])
   }
-  sel.id<-which(varID.list==id)
+
+    sel.id<-which(parID.list==id)
 
   y <- coda::mcmc.list(x$codaSamples[,sel.id])
   xp <- as.vector(stats::time(y))
@@ -55,5 +57,7 @@ trace_ACF_plot_indiv <- function(x,var="P",sourceID=1,varID=NULL,obsID=1,...){
   #        col = 1:x$nChains,main=id.name)
            col = 4:4,main=id)
   #ESS<-coda::effectiveSize(y)
-  stats::acf(as.matrix(y),main="" ) #paste0("ESS=",round(ESS,2)))
-    }
+  stats::acf(as.matrix(y),main=" " ) #paste0("ESS=",round(ESS,2)))
+
+  }
+
