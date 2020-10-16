@@ -148,9 +148,7 @@
 #' @examples
 #' \dontrun{
 #'
-#' data(Elpaso)
-#' Y=Elpaso$Y ; muP=Elpaso$muP
-#' q=nrow(muP)
+#' data(Elpaso); Y=Elpaso$Y ; muP=Elpaso$muP ; q=nrow(muP)
 #' out.Elpaso <- bmrm(Y,q,muP, nAdapt=1000,nBurnIn=5000,nIter=5000,nThin=1)
 #' summary(out.Elpaso)
 #' plot(out.Elpaso)
@@ -444,6 +442,7 @@ bmrm = function(Y,q,muP,errdist="norm", df=4,
   out$Y.hat = Y.hat
   out$residual=residual
   out$codaSamples =codaSamples
+
   out$nIter = nIter
   out$nBurnIn=nBurnIn
   out$nThin=nThin
