@@ -1,15 +1,15 @@
-#' 
-#' @description Produce plots of the estimated 
+#'
+#' @description Produce plots of the estimated
 #' posterior quantiles of variables for prob=(2.5\%, 50\%, 97.5\%),
-#' based on the MCMC samples in \code{bmrm}. 
-#' @title Produce plots of the parameter estimates 
+#' based on the MCMC samples in \code{bmrm}.
+#' @title Produce plots of the parameter estimates
 #' @param x an object of class \code{bmrm}, the output of the function \code{bmrm}
-#' @param type name of a variable (default="P"). 
-#' It should be one of "P"(source composition or profile matrix P), 
-#' "A"(source contribution matrix A), "both" (both P and A), "Sigma" (error  varaince).
-#' @param text TRUE/FALSE, display the value of P.hat on the plot for P (defaut=FALSE)     
+#' @param type name of a variable (default="P").
+#' It should be one of "P"(source composition or profile matrix P),
+#' "A"(source contribution matrix A), "both" (both P and A), "Sigma" (error  variance).
+#' @param text TRUE/FALSE, display the value of P.hat on the plot for P (defaut=FALSE)
 #' @param ... arguments to be passed to methods
-#' 
+#'
 #' @details
 #' The following types of plots are drawn depending on the selected parameters:
 #' \itemize{
@@ -19,14 +19,14 @@
 #'  }
 #' @export
 #' @aliases plot
-#' 
+#'
 
 
 plot.bmrm <- function(x,type="both",text=FALSE,...){
 
-  #============Time Series Plot==============================================
+
   BB<-A<-K<-Pname<-P<-LB<-UB<-Sigma<-NULL
-## A  
+## A
   if(type=="A" | type=="both"){
     ggplot.data<-data.frame(K=paste("source",rep(1:x$nsource,each=nrow(x$Y))),
       T=rep(1:x$nobs,x$nsource),
@@ -46,8 +46,8 @@ plot.bmrm <- function(x,type="both",text=FALSE,...){
             ggplot2::geom_polygon(data=ggplot.polyg.data,
                 ggplot2::aes(T,BB),alpha=0.5,col="pink",fill="pink")+
             ggplot2::geom_line(ggplot2::aes(T,A))+
-            ggplot2::ylab("A") + 
-            ggplot2::xlab("obs") 
+            ggplot2::ylab("A") +
+            ggplot2::xlab("obs")
   }
   if(type=="P"| type=="both"){
     ggplot.data<-data.frame(K=paste("source",rep(1:x$nsource,x$nvar)),
@@ -62,10 +62,10 @@ plot.bmrm <- function(x,type="both",text=FALSE,...){
           ggplot2::facet_grid(K~.,scales="free_y")+ggplot2::xlab("variables")+
           ggplot2::geom_errorbar(ggplot2::aes(ymin=LB,ymax=UB),
                        color="gray40",width=0.2)
-    if(text) 
+    if(text)
       P2<-P2+ggplot2::geom_text(ggplot2::aes(label=as.character(round(P,2))),
                   nudge_y=3,nudge_x=-0.3)
-  } 
+  }
   if(type=="Sigma"){
     ggplot.data<-data.frame(LB=x$Sigma.quantiles[,"2.5%"]*100,
                             Med=x$Sigma.quantiles[,"50%"]*100,
@@ -79,7 +79,7 @@ plot.bmrm <- function(x,type="both",text=FALSE,...){
           ggplot2::geom_errorbar(ggplot2::aes(ymin=LB,ymax=UB),
                        color="gray40",width=0.2)
   }
-  
+
   P<-list()
   if(type=="A"){
     P[[1]]<-P1  #print(P1)
