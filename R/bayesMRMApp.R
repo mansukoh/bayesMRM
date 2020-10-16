@@ -88,7 +88,7 @@ bayesMRMApp<-function(x){
       })
       output$showest <- shiny::renderTable({
         if(input$type=="A"){
-          T<-x$A.hat
+          T <- x$A.hat
           T <- data.frame(obs=1:x$nobs,T)
           colnames(T)[-1]<-paste0("source",1:x$nsource)
           T
@@ -152,9 +152,11 @@ bayesMRMApp<-function(x){
         }
       })
       output$showMCMC <- shiny::renderPlot({
-        trace_ACF_plot_indiv(x,var=input$type,sourceID=input$source,
-                              varID=input$var,obsID=input$obs)
-      })
+  #      trace_ACF_plot_indiv(x,var=input$type,sourceID=input$source,
+  #                            varID=input$var,obsID=input$obs)
+              trace_ACF_plot(x,var=input$type, nplot=16)
+
+            })
     }#end server
   )#end App
   shiny::runApp(EMS_app,launch.browser=TRUE)
