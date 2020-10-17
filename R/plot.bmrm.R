@@ -22,7 +22,7 @@
 #'
 
 
-plot.bmrm <- function(x,type="both",text=FALSE,...){
+plot.bmrm <- function(x,type="both",...){
 
 
   BB<-A<-K<-Pname<-P<-LB<-UB<-Sigma<-NULL
@@ -50,21 +50,25 @@ plot.bmrm <- function(x,type="both",text=FALSE,...){
             ggplot2::xlab("obs")
   }
   if(type=="P"| type=="both"){
-    ggplot.data<-data.frame(K=paste("source",rep(1:x$nsource,x$nvar)),
-                            LB=x$P.quantiles[,"2.5%"]*100,
-                            Med=x$P.quantiles[,"50%"]*100,
-                            UB=x$P.quantiles[,"97.5%"]*100,
+    ggplot.data<-data.frame(K=paste("source",rep(1:x$nsource,each=x$nvar)),
+                            #LB=x$P.quantiles[,"2.5%"]*100,
+                            LB=c( t( matrix(x$P.quantiles[,"2.5%"]*100,
+                                           nrow(x$P.hat), ncol(x$P.hat))) ) ,
+                            #Med=x$P.quantiles[,"50%"]*100,
+                            #UB=x$P.quantiles[,"97.5%"]*100,
+                            UB=c( t( matrix(x$P.quantiles[,"97.5%"]*100,
+                                            nrow(x$P.hat), ncol(x$P.hat))) ) ,
                             P=c(t(x$P.hat)*100),
-                            Pname=rep(colnames(x$Y),each=x$nsource))
+                            Pname=rep(colnames(x$Y),x$nsource))  #each=x$nsource))
 
     P2<-ggplot2::ggplot(ggplot.data,ggplot2::aes(Pname,P))+
           ggplot2::geom_bar(stat="identity",width=0.5,fill="gray60")+
           ggplot2::facet_grid(K~.,scales="free_y")+ggplot2::xlab("variables")+
           ggplot2::geom_errorbar(ggplot2::aes(ymin=LB,ymax=UB),
                        color="gray40",width=0.2)
-    if(text)
-      P2<-P2+ggplot2::geom_text(ggplot2::aes(label=as.character(round(P,2))),
-                  nudge_y=3,nudge_x=-0.3)
+    #if(text)
+    #  P2<-P2+ggplot2::geom_text(ggplot2::aes(label=as.character(round(P,2))),
+    #              nudge_y=3,nudge_x=-0.3)
   }
   if(type=="Sigma"){
     ggplot.data<-data.frame(LB=x$Sigma.quantiles[,"2.5%"]*100,
