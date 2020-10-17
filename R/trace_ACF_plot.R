@@ -38,7 +38,7 @@ trace_ACF_plot <- function(x,var="P", ACF=FALSE, nplot=0,saveFile=FALSE,...){
 
   if (var== "P"  & nplot == 0) nplot=nrow(x$P.hat)*ncol( x$P.hat)
   if (var== "Sigma"  & nplot == 0 ) nplot=ncol( x$Y)
-  if (var== "A"  & nplot == 0 ) nplot=16
+  if (var== "A"  & nplot == 0 ) nplot=12
 
   var.list<-coda::varnames(x$codaSamples)
   var.list1<-unlist(lapply(var.list,function(x) strsplit(x,"\\[")[[1]][1]))
@@ -46,20 +46,20 @@ trace_ACF_plot <- function(x,var="P", ACF=FALSE, nplot=0,saveFile=FALSE,...){
   j<-0
   if(!saveFile){
     if(length(id.list)>nplot){
-       sel.id<-sample(id.list,size=nplot,replace=FALSE)
+       sel.id<- id.list[1:nplot] #  sample(id.list,size=nplot,replace=FALSE)
      } else{
        sel.id<-id.list
     }
 
     #par("mar")
-    par(mar=rep(1,4))
+    #par(mar=rep(1,4))
 
 
     for(i in sel.id){
       j<-j+1
       if(j %%(4*4) ==1){
          if( j >1 ) grDevices::X11();
-        graphics::par(mfrow=c(4,4))
+        graphics::par(mfrow=c(3,4))
       }
 
       y <- coda::mcmc.list(x$codaSamples[,i])
@@ -77,7 +77,7 @@ trace_ACF_plot <- function(x,var="P", ACF=FALSE, nplot=0,saveFile=FALSE,...){
     }
   } else{
     grDevices::pdf(paste0(var,"-trace_ACF.pdf")) # ,width=6,height=4,paper='special')
-    graphics::par(mfrow=c(4,4))
+    graphics::par(mfrow=c(3,4))
 
     if(length(id.list)>nplot){
       sel.id<-sample(id.list,size=nplot,replace=FALSE)
