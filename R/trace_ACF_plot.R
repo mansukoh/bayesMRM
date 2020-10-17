@@ -13,20 +13,18 @@
 #' @param ACF TRUE/FALSE  IF TRUE ACF plot will be provided along with trace
 #'  plot (dafault: FALSE)
 #' @param nplot  number of elements of 'var' for trace/ACF plot. If 'nplot' is
-#'  smaller than the total number of elements of 'var' then trace/ACF plots of
-#'  'nplot' randomly selected elements will be drawn.
-#'   Otherwise, trace/ACF plots of  all elements will be drawn.
+#'  smaller than the total number of elements of 'var' then plots of the first
+#'  'nplot' elements will be drawn. Otherwise, trace/ACF plots of  all
+#'   elements will be drawn.
 #'    (default=0  implies that all elements will be selected if var="P" or "Sigma"
-#'    and 16 elements will be selected  randomly if  var="A")
+#'    and the first 12 elements will be selected  if  var="A")
 #' @param saveFile TRUE/FALSE, save the plots in file
 #' \emph{'var'-trace.pdf} (default=FALSE)
 #' @param ... arguments to be passed to methods
 #' @export
 #' @examples
 #' \dontrun{
-#' data(Elpaso)
-#' Y=Elpaso$Y ; muP=Elpaso$muP
-#' q=nrow(muP)
+#' data(Elpaso); Y=Elpaso$Y ; muP=Elpaso$muP ; q=nrow(muP)
 #' out.Elpaso <- bmrm(Y,q,muP, nAdapt=1000,nBurnIn=5000,nIter=5000,nThin=1)
 #' trace_ACF_plot(out.Elpaso,"Sigma")
 #' trace_ACF_plot(out.Elpaso,"P", ACF=T, saveFile=TRUE)

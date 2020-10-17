@@ -18,9 +18,7 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' data(Elpaso)
-#' Y=Elpaso$Y ; muP=Elpaso$muP
-#' q=nrow(muP)
+#' data(Elpaso); Y=Elpaso$Y ; muP=Elpaso$muP ; q=nrow(muP)
 #' out.Elpaso <- bmrm(Y,q,muP, nAdapt=1000,nBurnIn=5000,nIter=5000,nThin=1)
 #' bayesMRMApp(out.Elpaso)
 #' }
