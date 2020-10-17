@@ -52,12 +52,12 @@ trace_ACF_plot <- function(x,var="P", ACF=FALSE, nplot=0,saveFile=FALSE,...){
     }
 
     #par("mar")
-    #par(mar=rep(1,4))
+    par(mar=rep(1,4))
 
 
     for(i in sel.id){
       j<-j+1
-      if(j %%(4*4) ==1){
+      if(j %%(3*4) ==1){
          if( j >1 ) grDevices::X11();
         graphics::par(mfrow=c(3,4))
       }
