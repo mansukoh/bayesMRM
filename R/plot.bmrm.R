@@ -59,13 +59,15 @@ plot.bmrm <- function(x,type="both",...){
                             UB=c( t( matrix(x$P.quantiles[,"97.5%"]*100,
                                             nrow(x$P.hat), ncol(x$P.hat))) ) ,
                             P=c(t(x$P.hat)*100),
-                            Pname=rep(colnames(x$Y),x$nsource))  #each=x$nsource))
+                            Pname=rep(colnames(x$Y),x$nsource),
+                            Pid = rep(1:ncol(x$Y),x$nsource))  #each=x$nsource))
 
-    P2<-ggplot2::ggplot(ggplot.data,ggplot2::aes(Pname,P))+
+    P2<-ggplot2::ggplot(ggplot.data,ggplot2::aes(factor(Pid),P))+
           ggplot2::geom_bar(stat="identity",width=0.5,fill="gray60")+
           ggplot2::facet_grid(K~.,scales="free_y")+ggplot2::xlab("variables")+
           ggplot2::geom_errorbar(ggplot2::aes(ymin=LB,ymax=UB),
-                       color="gray40",width=0.2)
+                       color="gray40",width=0.2)+
+         ggplot2::scale_x_discrete(labels=colnames(x$Y))
     #if(text)
     #  P2<-P2+ggplot2::geom_text(ggplot2::aes(label=as.character(round(P,2))),
     #              nudge_y=3,nudge_x=-0.3)
