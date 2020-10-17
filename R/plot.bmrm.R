@@ -54,7 +54,7 @@ plot.bmrm <- function(x,type="both",text=FALSE,...){
                             LB=x$P.quantiles[,"2.5%"]*100,
                             Med=x$P.quantiles[,"50%"]*100,
                             UB=x$P.quantiles[,"97.5%"]*100,
-                            P=c(x$P.hat*100),
+                            P=c(t(x$P.hat)*100),
                             Pname=rep(colnames(x$Y),each=x$nsource))
 
     P2<-ggplot2::ggplot(ggplot.data,ggplot2::aes(Pname,P))+
