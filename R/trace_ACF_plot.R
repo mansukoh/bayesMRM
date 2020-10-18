@@ -4,7 +4,7 @@
 #'  of  elements of A or P or Sigma.
 #' @title Trace and/or ACF plots of elements of a variable
 #'  in \code{bmrm} object
-#' @usage trace_ACF_plot(x,var="P",ACF=FALSE, nplot=16,saveFile=FALSE,...)
+#' @usage trace_ACF_plot(x,var="P",ACF=FALSE, nplot=12,saveFile=FALSE,...)
 #' @param x an object of class \code{bmrm}, the output of the \code{bmrm} function
 #' @param var name of a variable to which the plots apply.  It sould be one of
 #' "A" (source contribution matrix),
@@ -28,7 +28,7 @@
 #' out.Elpaso <- bmrm(Y,q,muP, nAdapt=1000,nBurnIn=5000,nIter=5000,nThin=1)
 #' trace_ACF_plot(out.Elpaso,"Sigma")
 #' trace_ACF_plot(out.Elpaso,"P", ACF=T, saveFile=TRUE)
-#' trace_ACF_plot(out.Elpaso,"A", nplot=16)
+#' trace_ACF_plot(out.Elpaso,"A", nplot=12)
 #' }
 #'
 

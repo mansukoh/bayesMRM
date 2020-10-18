@@ -10,7 +10,9 @@
 #' an object of class \code{bmrm}, for prob=(0.025, 0.05, 0.25, 0.5, 0.75, 0.95, 0.975).
 #'  \item table of convergence diagnostics measures on MCMC samples of
 #' a variable in an object of class \code{bmrm}.
-#'  \item time series and ACF plots of an element of a variable in an
+#'  \item time series and ACF plots of the first 12 elements of a variable in an
+#'  object of class \code{bmrm}.
+#' #'   \item time series and ACF plots of a specific  element of a variable in an
 #'  object of class \code{bmrm}.
 #'  }
 #' @usage bayesMRMApp(x)
