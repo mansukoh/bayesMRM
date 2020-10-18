@@ -50,7 +50,7 @@ trace_ACF_plot <- function(x,var="P", ACF=FALSE, nplot=0,saveFile=FALSE,...){
     }
 
     #par("mar")
-    par(mar=rep(0.3,4))
+    par(mar=rep(2,4))
 
 
     for(i in sel.id){
