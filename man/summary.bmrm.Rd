@@ -17,10 +17,10 @@
 \description{
 An S3 method that summarizes the
 output of the \code{bmrm} function in an object of class \code{bmrm}. This object
- contains  
-the posterior mean, the posterior standard deviation, and 
-(0.025, 0.05, 0.1,0.25, 0.5, 0.75,0.9, 0.95, 0.975) posterior quantiles
+ contains
+the posterior mean, the posterior standard deviation, and
+(0.025, 0.05,0.25, 0.5, 0.75,0.95, 0.975) posterior quantiles
  of  A, P, \eqn{\Sigma}. It also contains other
-relevant information about the MCMC procedure such as the burn-in iterations, 
+relevant information about the MCMC procedure such as the burn-in iterations,
 the number of MCMC chains, etc.
 }

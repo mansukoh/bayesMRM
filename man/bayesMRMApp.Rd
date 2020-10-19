@@ -10,30 +10,26 @@ bayesMRMApp(x)
 \item{x}{an object of class \code{bmrm}, the output of the \code{bmrm} function}
 }
 \description{
-Call Shiny to show the results of Bayesian analysis of 
-multivariate receptor modeling in a web-based application. 
+Call Shiny to show the results of Bayesian analysis of
+multivariate receptor modeling in a web-based application.
 This object contains
  \itemize{
- \item plot of the posterior median and 95\% posterior interval of a variable in 
+ \item plot of the posterior median and 95\% posterior interval of a variable in
 an object of class \code{bmrm}.
- \item table of the posterior quantiles of a variable in 
-an object of class \code{bmrm}, for prob=(0.025, 0.05, 0.1,
-  0.25, 0.5, 0.75, 0.9,0.95, 0.975).
- \item table of convergence diagnostics measures on MCMC samples of  
-a variable in an object of class \code{bmrm}.   
- \item time series and ACF plots of an element of a variable in an 
+ \item table of the posterior quantiles of a variable in
+an object of class \code{bmrm}, for prob=(0.025, 0.05, 0.25, 0.5, 0.75, 0.95, 0.975).
+ \item table of convergence diagnostics measures on MCMC samples of
+a variable in an object of class \code{bmrm}.
+ \item time series and ACF plots of the first 12 elements of a variable in an
+ object of class \code{bmrm}.
+#'   \item time series and ACF plots of a specific  element of a variable in an
  object of class \code{bmrm}.
  }
 }
 \examples{
 \dontrun{
-data(simdata)
-T = nrow(simdata); J = ncol(simdata)
-q = 3
-muP=matrix(0.5, q,J)
-muP[1,c(2,3)]<-muP[2,c(1,4)]<-muP[3,c(5,6)]<-0 
-muP<-t(apply(muP,1,function(x) x/sum(x)))
-out <- bmrm(simdata,q,muP,nAdapt=1000,nBurnIn=1000,nIter=3000,nThin=1)
-bayesMRMApp(out)
+data(Elpaso); Y=Elpaso$Y ; muP=Elpaso$muP ; q=nrow(muP)
+out.Elpaso <- bmrm(Y,q,muP, nAdapt=1000,nBurnIn=5000,nIter=5000,nThin=1)
+bayesMRMApp(out.Elpaso)
 }
 }

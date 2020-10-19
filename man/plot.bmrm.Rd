@@ -5,29 +5,29 @@
 \alias{plot}
 \title{Produce plots of the parameter estimates}
 \usage{
-\method{plot}{bmrm}(x, type = "both", text = FALSE, ...)
+\method{plot}{bmrm}(x, type = "both", ...)
 }
 \arguments{
 \item{x}{an object of class \code{bmrm}, the output of the function \code{bmrm}}
 
-\item{type}{name of a variable (default="P"). 
-It should be one of "P"(source composition or profile matrix P), 
-"A"(source contribution matrix A), "both" (both P and A), "Sigma" (error  varaince).}
-
-\item{text}{TRUE/FALSE, display the value of P.hat on the plot for P (defaut=FALSE)}
+\item{type}{name of a variable (default="P").
+It should be one of "P"(source composition or profile matrix P),
+"A"(source contribution matrix A), "both" (both P and A), "Sigma" (error  variance).}
 
 \item{...}{arguments to be passed to methods}
+
+\item{text}{TRUE/FALSE, display the value of P.hat on the plot for P (defaut=FALSE)}
 }
 \description{
-Produce plots of the estimated 
+Produce plots of the estimated
 posterior quantiles of variables for prob=(2.5\%, 50\%, 97.5\%),
 based on the MCMC samples in \code{bmrm}.
 }
 \details{
 The following types of plots are drawn depending on the selected parameters:
 \itemize{
-\item P: bar plots of (5\%, 50\%, 95\%) posterior quantiles of elements for each row of P
-\item A: time series plots of (5\%, 50\%, 95\%) posterior quantiles of elements for each column of A
-\item Sigma: bar plots of (5\%, 50\%, 95\%) posterior quantiles of of elements of Sigma
+\item P: bar plots of the posterior medians with 95\% posterior intervals of elements for each row of P
+\item A: time series plots of  posterior medians with 95\% posterior intervals elements for each column of A
+\item Sigma: bar plots of  posterior medians with 95\% posterior intervals of elements of Sigma
  }
 }

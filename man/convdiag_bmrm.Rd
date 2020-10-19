@@ -9,7 +9,7 @@ convdiag_bmrm(x , var="P", convdiag="heidel",print=TRUE,...)
 \arguments{
 \item{x}{an object of class \code{bmrm}, the output of the \code{bmrm} function}
 
-\item{var}{name of a variable for convergence disagnostics. It should be one of "A" (source contribution matrix), 
+\item{var}{name of a variable for convergence disagnostics. It should be one of "A" (source contribution matrix),
 "P" (source composition or profile matrix), or
 "Sigma" (error variance).}
 
@@ -23,38 +23,34 @@ of ("geweke", "heidel") (default="heidel").}
 \value{
 A list of  convergence diagnostics results
 \describe{
-  \item{convdiag}{selected convergence diagnostic measures} 
+  \item{convdiag}{selected convergence diagnostic measures}
   \item{geweke}{Geweke's statistics and p-value if \code{convdiag}
- includes "geweke", NULL if \code{convdiag} does not include "geweke"} 
-  \item{heidel}{Heidelberger and Welch's test statistics 
-and p-value if \code{convdiag} includes "heidel"; NULL if 
-\code{convdiag} does not include "heidel"} 
+ includes "geweke", NULL if \code{convdiag} does not include "geweke"}
+  \item{heidel}{Heidelberger and Welch's test statistics
+and p-value if \code{convdiag} includes "heidel"; NULL if
+\code{convdiag} does not include "heidel"}
 }
 }
 \description{
-Compute convergence diagnostic measures of 
+Compute convergence diagnostic measures of
  Geweke (1992), Heidelberger and Welch (1983).
 }
 \details{
-The functions  \code{geweke.diag}, \code{heidel.diag} 
- in \bold{coda} package are used to compute these diagnostics. 
+The functions  \code{geweke.diag}, \code{heidel.diag}
+ in \bold{coda} package are used to compute these diagnostics.
  In our package, \code{frac1=0.1, frac2=0.5} are used as parameters of the function
  \code{coda::geweke.diag} and \code{eps = 0.1, pvalue = 0.05} are used as
   parameters of the function \code{coda::heidel.diag}.
 }
 \examples{
 \dontrun{
-data(simdata)
-T = nrow(simdata); J = ncol(simdata)
-q = 3
-muP=matrix(0.5, q,J)
-muP[1,c(2,3)]<-muP[2,c(1,4)]<-muP[3,c(5,6)]<-0 
-muP<-t(apply(muP,1,function(x) x/sum(x)))
-out <- bmrm(simdata,q,muP,nAdapt=1000,nBurnIn=1000,nIter=3000,nThin=1)
-
-conv1<-convdiag_bmrm(out,var="P")
-conv2<-convdiag_bmrm(out,var="A", convdiag="geweke")
-conv3<-convdiag_bmrm(out,var="Sigma", convdiag=c("geweke","heidel"))
+data(Elpaso)
+Y=Elpaso$Y ; muP=Elpaso$muP
+q=nrow(muP)
+out.Elpaso <- bmrm(Y,q,muP, nAdapt=1000,nBurnIn=5000,nIter=5000,nThin=1)
+conv1<-convdiag_bmrm(out.Elpaso,var="P")
+conv2<-convdiag_bmrm(out.Elpaso,var="A", convdiag="geweke")
+conv3<-convdiag_bmrm(out.Elpaso,var="Sigma", convdiag=c("geweke","heidel"))
 }
 }
 \references{
@@ -70,6 +66,6 @@ Heidelberger P. and Welch PD.(1983) Simulation run length
 control in the presence of an initial transient.
 Opns Res., 31, 1109-44,Oxford, UK.
 
-Plummer, M., Best, N., Cowles, K. and Vines K. (2006) CODA: 
+Plummer, M., Best, N., Cowles, K. and Vines K. (2006) CODA:
 Convergence Diagnosis and Output Analysis for MCMC, R News, Vol 6, pp. 7-11.
 }

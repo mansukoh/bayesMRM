@@ -2,7 +2,7 @@ Package: bayesMRM
 Type: Package
 Title: Bayesian Multivariate Receptor Modeling
 Version: 0.1.1
-Author: Man-Suk Oh, Eun Sug Park, Eun-Kyung Lee
+Author: Man-Suk Oh,  Eun-Kyung Lee , Eun Sug Park
 Maintainer: Man-Suk Oh <msoh@ewha.ac.kr>
 Description: Bayesian analysis of multivariate receptor modeling. The package consists of implementations of the method of Park and Oh (2015) <https://doi.org/10.1016/j.chemolab.2015.08.021>.The package uses JAGS to generate Markov chain Monte Carlo samples of parameters. 
 Date: 2020-10-15

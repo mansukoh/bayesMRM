@@ -15,10 +15,10 @@ bmrm(Y, q, muP,errdist="norm", df=4,
 
 \item{q}{number of sources. It must be a positive integer.}
 
-\item{muP}{(q,ncol(Y))-dimensional prior mean matrix for the source 
+\item{muP}{(q,ncol(Y))-dimensional prior mean matrix for the source
 composition matrix P, where q is the number of sources. Each row of muP
  should have at least q-1 zero elements
- (the identifiability condition C1 in Park and Oh (2015)). For the remaining free elements, 
+ (the identifiability condition C1 in Park and Oh (2015)). For the remaining free elements,
  nonnegative numbers can be assigned (default=0.5).}
 
 \item{errdist}{error distribution: either "norm" for normal distribution or "t"
@@ -29,10 +29,10 @@ for t distribution (default="norm")}
 \item{varP.free}{scalar value of the prior variance of the free (nonzero) elements
 of the source composition matrix P (default=100)}
 
-\item{xi}{prior mean vector of the q-dimensional source contribution 
+\item{xi}{prior mean vector of the q-dimensional source contribution
 vector at time t  (default=vector of 1's)}
 
-\item{Omega}{diagonal matrix of the prior variance of the q-dimensional 
+\item{Omega}{diagonal matrix of the prior variance of the q-dimensional
 source contribution vector at time t (default=identity matrix)}
 
 \item{a0}{shape parameter of the Inverse Gamma prior of the error variance
@@ -53,21 +53,21 @@ source contribution vector at time t (default=identity matrix)}
 \item{P.init}{initial value of the source composition matrix P. It should have
 zero elements in the same zero positions in muP  and it should
 satisfy the identifiability conditions C1-C2 of Park and Oh (2015).
-If omitted, the nonzero elements of P.init will be randomly generated 
+If omitted, the nonzero elements of P.init will be randomly generated
 from a uniform distrbution.}
 
 \item{A.init}{initial value of the source contribution matrix A.
 If omitted, it will be calculated from Y and P.init.}
 
-\item{Sigma.init}{initial value of the error variance. 
+\item{Sigma.init}{initial value of the error variance.
 If omitted, it will be calculated from Y, A.init and P.init.}
 
 \item{...}{arguments to be passed to methods}
 }
 \value{
-in \code{bmrm} object 
+in \code{bmrm} object
 \describe{
-  \item{nsource}{number of sources} 
+  \item{nsource}{number of sources}
   \item{nobs}{number of observations in data Y}
   \item{nvar}{number of variables in data Y}
   \item{Y}{observed data matrix}
@@ -75,16 +75,16 @@ in \code{bmrm} object
   \item{df}{degrees of freedom when errdist="t"}
   \item{A.hat}{posterior mean of the source contribution matrix A}
   \item{P.hat}{posterior mean of the source composition matrix P}
-  \item{Sigma.hat}{posterior mean of the error variance Sigma} 
+  \item{Sigma.hat}{posterior mean of the error variance Sigma}
   \item{A.sd}{posterior standard deviation of the source contribution matrix A}
   \item{P.sd}{posterior standard deviation of the source composition matrix P}
-  \item{Sigma.sd}{posterior standard deviation of the error variance Sigma} 
-  \item{A.quantiles}{posterior quantlies of A for prob=(0.025, 0.05, 0.1,
-  0.25, 0.5, 0.75, 0.9,0.95, 0.975)}
-  \item{P.quantiles}{posterior quantiles of P for prob=(0.025, 0.05, 0.1,
-  0.25, 0.5, 0.75,0.9, 0.95, 0.975)}
+  \item{Sigma.sd}{posterior standard deviation of the error variance Sigma}
+  \item{A.quantiles}{posterior quantlies of A for prob=(0.025, 0.05,
+  0.25, 0.5, 0.75, 0.95, 0.975)}
+  \item{P.quantiles}{posterior quantiles of P for prob=(0.025, 0.05,
+  0.25, 0.5, 0.75, 0.95, 0.975)}
   \item{Sigma.quantiles}{posterior quantiles of Sigma for prob=(0.025, 0.05,
-  0.1, 0.25, 0.5, 0.75, 0.9,0.95, 0.975)}
+  0.25, 0.5, 0.75, 0.95, 0.975)}
   \item{Y.hat}{estimate of Y computed from A.hat*P.hat}
   \item{residual}{Y-Y.hat}
   \item{codaSamples}{MCMC posterior samples of A, P, and \eqn{\Sigma} in class "mcmc.list"}
@@ -100,87 +100,71 @@ Generate posterior samples of the source
 }
 \details{
 \emph{Model}
-The basic model for Bayesian multivariate receptor model is 
+The basic model for Bayesian multivariate receptor model is
   as follows:
 
        \eqn{Y_t=A_t P+E_t, t=1,\cdots,T},
-     
-  where 
+
+  where
   \itemize{
-    \item \eqn{Y_t} is a vector of observations of \eqn{J} variables at time 
+    \item \eqn{Y_t} is a vector of observations of \eqn{J} variables at time
          \eqn{t}, \eqn{t = 1,\cdots,T}.
-    \item \eqn{P} is a \eqn{q \times J}  source composition 
+    \item \eqn{P} is a \eqn{q \times J}  source composition
             matrix in which the \eqn{k}-th row represents the \eqn{k}-th source
            composition profiles, \eqn{k=1,\cdots,q}, \eqn{q} is the number of sources.
     \item \eqn{A_t} is a J dimensional source contribution vector at time \eqn{t},
            \eqn{t=1,\cdots,T}.
-    \item \eqn{E_t =(E_{t1}, \cdots, E_{tJ})} is an error term 
+    \item \eqn{E_t =(E_{t1}, \cdots, E_{tJ})} is an error term
           for the \eqn{t}-th observations,
-          following \eqn{E_{t} \sim N(0, \Sigma)} or \eqn{E_{t} \sim t_{df}(0, \Sigma)}, 
+          following \eqn{E_{t} \sim N(0, \Sigma)} or \eqn{E_{t} \sim t_{df}(0, \Sigma)},
          independently for \eqn{j = 1,\cdots,J}, where \eqn{\Sigma = diag(\sigma_{1},...,
-     \sigma_{j})}. 
+     \sigma_{j})}.
  }
- 
+
 \emph{Priors}
  \itemize{
   \item Prior distribution of \eqn{A_t} is given as
-  a truncated multivariate normal distribution, 
+  a truncated multivariate normal distribution,
        \itemize{
-        \item \eqn{ A_t \sim N(\xi,\Omega) I(A_t \ge 0)}, independently for  
+        \item \eqn{ A_t \sim N(\xi,\Omega) I(A_t \ge 0)}, independently for
        \eqn{t = 1,\cdots,T}.
-       } 
+       }
   \item Prior distribution of \eqn{P_{kj}} (the \eqn{(k,j)}-th element  of the source
-  composition matrix \eqn{P}) is given as 
+  composition matrix \eqn{P}) is given as
       \itemize{
       \item
-      \eqn{ P_{kj} \sim N(\code{muP}_{kj} , \code{varP.free} )I(P_{kj} 
+      \eqn{ P_{kj} \sim N(\code{muP}_{kj} , \code{varP.free} )I(P_{kj}
       \ge 0)}, for free (nonzero) \eqn{P_{kj}},
       \item
       \eqn{ P_{kj} \sim N(0, 1e-10 )I(P_{kj} \ge 0)}, for zero \eqn{P_{kj}},
-      
+
       independently for  \eqn{k = 1,\cdots,q; j = 1,\cdots,J }.
       }
-  \item Prior distribution of \eqn{\sigma_j} is \eqn{IG(a0, b0)}, i.e.,  
+  \item Prior distribution of \eqn{\sigma_j} is \eqn{IG(a0, b0)}, i.e.,
      \itemize{
-      \item \eqn{1/\sigma_j} is \eqn{Gamma(a0, b0)} having mean \eqn{a0/b0}, 
+      \item \eqn{1/\sigma_j} is \eqn{Gamma(a0, b0)} having mean \eqn{a0/b0},
   independently for \eqn{j=1,...,J}.
      }
 }
 
 \emph{Notes}
   \itemize{
-      \item 
-     We use the prior 
+      \item
+     We use the prior
      \eqn{ P_{kj} \sim N(0, 1e-10 )I(P_{kj} \ge 0)}  that is practically equal
-     to the point mass at 0 to simplify the model building in JAGS. 
+     to the point mass at 0 to simplify the model building in JAGS.
      \item  The MCMC samples of A and P are post-processed (rescaled) before saving
      so that \eqn{ \sum_{j=1}^J P_{kj} =1} for each \eqn{k=1,...,q} (the identifiablity
-     condition C3 of Park and Oh (2015).  
+     condition C3 of Park and Oh (2015).
  }
 }
 \examples{
 \dontrun{
 
-data(Elpaso)
-Y=Elpaso$Y
-muP=Elpaso$muP
-muP<-t(apply(muP,1,function(x) x/sum(x)))
-q=nrow(muP)
-out.Elpaso <- bmrm(Y,q,muP, nAdapt=1000,nBurnIn=5000,nIter=5000,
-               nThin=1)
+data(Elpaso); Y=Elpaso$Y ; muP=Elpaso$muP ; q=nrow(muP)
+out.Elpaso <- bmrm(Y,q,muP, nAdapt=1000,nBurnIn=5000,nIter=5000,nThin=1)
 summary(out.Elpaso)
 plot(out.Elpaso)
-
-data(simdata)
-T = nrow(simdata); J = ncol(simdata)
-q = 3
-muP=matrix(0.5, q,J)
-muP[1,c(2,3)]<-muP[2,c(1,4)]<-muP[3,c(5,6)]<-0 
-muP<-t(apply(muP,1,function(x) x/sum(x)))
-out.sim<- bmrm(simdata,q,muP,errdist="norm", df=4,nAdapt=1000,nBurnIn=3000,
-nIter=5000, nThin=1)
-summary(out1)
-plot(out1)
 
 }
 }
@@ -189,8 +173,12 @@ Park, E.S. and Oh, M-S. (2015), Robust Bayesian Multivariate
  Receptor Modeling, CHEMOMETRICS AND INTELLIGENT LABORATORY SYSTEMS,
  149, 215-226.
 
-Plummer, M. 2003. JAGS: A program for analysis of Bayesian 
-graphical models using Gibbs sampling. Proceedings of the 3rd 
+Park, E.S. and Oh, M-S. (2016), Bayesian Quantile Multivariate
+ Receptor Modeling, CHEMOMETRICS AND INTELLIGENT LABORATORY SYSTEMS,
+ 159, 174-180.
+
+Plummer, M. 2003. JAGS: A program for analysis of Bayesian
+graphical models using Gibbs sampling. Proceedings of the 3rd
 international workshop on distributed statistical computing, pp. 125.
  Technische Universit at Wien, Wien, Austria.
 

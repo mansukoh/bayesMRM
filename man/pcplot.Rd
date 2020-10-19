@@ -17,25 +17,18 @@ pcplot(x, P0, G3D=FALSE,...)
 }
 \description{
 Draw principal component plots of data (Y) and
-source profiles (rows) of the estimated source composition matrix P.hat 
-(and P0 if there is another source composition matrix P0 to compare, e.g., 
+source profiles (rows) of the estimated source composition matrix P.hat
+(and P0 if there is another source composition matrix P0 to compare, e.g.,
 P0 could be the true P in simulation or P0 could be another estimate of P)
 }
 \examples{
 \dontrun{
-data(simdata)
-T = nrow(simdata); J = ncol(simdata)
-q = 3
-muP=matrix(0.5, q,J)
-muP[1,c(2,3)]<-muP[2,c(1,4)]<-muP[3,c(5,6)]<-0 
-muP<-t(apply(muP,1,function(x) x/sum(x)))
-out <- bmrm(simdata,q, muP,nAdapt=1000,nUpdate=1000,nIter=3000, nThin=1)
+data(Elpaso)
+Y=Elpaso$Y ; muP=Elpaso$muP
+q=nrow(muP)
+out.Elpaso <- bmrm(Y,q,muP, nAdapt=1000,nBurnIn=5000,nIter=5000,nThin=1)
 
-P0=matrix(c(
-0.10, 0.00,  0.0,  0.3, 0.10,  0.2, 0.10,  0.1,  0.1,
-0.00, 0.20,  0.1,  0.0, 0.15,  0.1, 0.15,  0.1,  0.2,
-0.15, 0.15,  0.2,  0.1, 0.00,  0.0, 0.10,  0.2,  0.1),byrow=TRUE,nrow=3)
-pcplot(out,P0)
-pcplot(out,P0,G3D=TRUE)
+pcplot(out.Elpaso)
+pcplot(out.Elpaso,G3D=TRUE)
 }
 }
