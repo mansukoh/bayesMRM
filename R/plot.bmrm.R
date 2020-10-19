@@ -1,6 +1,6 @@
 #'
 #' @description Produce plots of the estimated
-#' posterior mean and 95\% posterior intervals of A,P,Sigma
+#' posterior mean and 95\% posterior intervals of A,P, \eqn{Sigma}
 #' based on the MCMC samples in \code{bmrm}.
 #' @title Produce plots of the parameter estimates
 #' @param x an object of class \code{bmrm}, the output of the function \code{bmrm}
