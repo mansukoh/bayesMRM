@@ -6,7 +6,7 @@
 #' @usage bmrm(Y, q, muP,errdist="norm", df=4,
 #'             varP.free=100, xi=NULL, Omega=NULL,
 #'               a0=0.01, b0=0.01,
-#'              nAdapt=1000, nBurnIn=3000, nIter=5000, nThin=1,
+#'              nAdapt=1000, nBurnIn=5000, nIter=5000, nThin=1,
 #'              P.init=NULL, A.init=NULL, Sigma.init=NULL,...)
 #' @param Y  data matrix
 #' @param q  number of sources. It must be a positive integer.
@@ -29,7 +29,7 @@
 #' @param b0 scale parameter of the Inverse Gamma prior of the error variance
 #'    (default=0.01)
 #' @param nAdapt  number of iterations for adaptation in JAGS (default=1000)
-#' @param nBurnIn number of iterations for the burn-in period in MCMC (default=30000)
+#' @param nBurnIn number of iterations for the burn-in period in MCMC (default=5000)
 #' @param nIter number of iterations per chain for monitoring samples from MCMC
 #'   (default=5000). \code{nIter} samples are saved in each chain of M CMC.
 #' @param nThin thinning interval for monitoring samples from MCMC (default=1)
@@ -161,7 +161,7 @@
 bmrm = function(Y,q,muP,errdist="norm", df=4,
                 varP.free=100, xi=NULL, Omega=NULL,
                  a0=0.01, b0=0.01,
-                 nAdapt=1000, nBurnIn=10000, nIter=30000, nThin=1,
+                 nAdapt=1000, nBurnIn=5000, nIter=5000, nThin=1,
               P.init=NULL, A.init=NULL, Sigma.init=NULL,...){
 
   T = nrow(Y)
