@@ -1,7 +1,7 @@
 #'
 #' @description Produce trace and Auto-Correlation Function
 #'   plots of MCMC samples
-#'  of  elements of A, P, \eqn{Sigma}.
+#'  of  elements of A, P, Sigma.
 #' @title Trace and/or ACF plots of elements of a variable
 #'  in \code{bmrm} object
 #' @usage trace_ACF_plot(x,var="P",ACF=FALSE, nplot=12,saveFile=FALSE,...)

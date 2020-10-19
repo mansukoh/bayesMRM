@@ -20,7 +20,7 @@ It should be one of "P"(source composition or profile matrix P),
 }
 \description{
 Produce plots of the estimated
-posterior mean and 95\% posterior intervals of A,P,Sigma
+posterior mean and 95\% posterior intervals of A,P, \eqn{Sigma}
 based on the MCMC samples in \code{bmrm}.
 }
 \details{

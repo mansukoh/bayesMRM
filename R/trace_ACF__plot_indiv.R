@@ -1,5 +1,5 @@
 #' @description Produce trace and Auto-Correlation Function plots of MCMC samples
-#'  of a specific element of A, P, \eqn{\Sigma}.
+#'  of a specific element of A, P, Sigma.
 #' @title Trace and ACF plots of an element of a variable in \code{bmrm} object
 #' @usage trace_ACF_plot_indiv(x,var="P",sourceID=1,varID=NULL,obsID=1,...)
 #' @param x an object of class \code{bmrm}, the output of the \code{bmrm} function

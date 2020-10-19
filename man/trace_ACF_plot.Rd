@@ -33,7 +33,7 @@ smaller than the total number of elements of 'var' then plots of the first
 \description{
 Produce trace and Auto-Correlation Function
   plots of MCMC samples
- of  elements of A or P or Sigma.
+ of  elements of A, P, \eqn{Sigma}.
 }
 \examples{
 \dontrun{

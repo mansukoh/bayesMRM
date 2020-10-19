@@ -24,7 +24,7 @@ trace_ACF_plot_indiv(x,var="P",sourceID=1,varID=NULL,obsID=1,...)
 }
 \description{
 Produce trace and Auto-Correlation Function plots of MCMC samples
- of a specific element of A or  P or \eqn{\Sigma}.
+ of a specific element of A, P, \eqn{\Sigma}.
 }
 \details{
 Produce trace and Auto-Correlation Function plots of MCMC samples
