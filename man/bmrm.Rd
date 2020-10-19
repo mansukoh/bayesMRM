@@ -7,7 +7,7 @@
 bmrm(Y, q, muP,errdist="norm", df=4,
             varP.free=100, xi=NULL, Omega=NULL,
               a0=0.01, b0=0.01,
-             nAdapt=1000, nBurnIn=3000, nIter=5000, nThin=1,
+             nAdapt=1000, nBurnIn=5000, nIter=5000, nThin=1,
              P.init=NULL, A.init=NULL, Sigma.init=NULL,...)
 }
 \arguments{
@@ -43,7 +43,7 @@ source contribution vector at time t (default=identity matrix)}
 
 \item{nAdapt}{number of iterations for adaptation in JAGS (default=1000)}
 
-\item{nBurnIn}{number of iterations for the burn-in period in MCMC (default=30000)}
+\item{nBurnIn}{number of iterations for the burn-in period in MCMC (default=5000)}
 
 \item{nIter}{number of iterations per chain for monitoring samples from MCMC
 (default=5000). \code{nIter} samples are saved in each chain of M CMC.}
@@ -172,10 +172,6 @@ plot(out.Elpaso)
 Park, E.S. and Oh, M-S. (2015), Robust Bayesian Multivariate
  Receptor Modeling, CHEMOMETRICS AND INTELLIGENT LABORATORY SYSTEMS,
  149, 215-226.
-
-Park, E.S. and Oh, M-S. (2016), Bayesian Quantile Multivariate
- Receptor Modeling, CHEMOMETRICS AND INTELLIGENT LABORATORY SYSTEMS,
- 159, 174-180.
 
 Plummer, M. 2003. JAGS: A program for analysis of Bayesian
 graphical models using Gibbs sampling. Proceedings of the 3rd
