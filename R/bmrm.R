@@ -135,10 +135,6 @@
 #' @references Park, E.S. and Oh, M-S. (2015), Robust Bayesian Multivariate
 #'  Receptor Modeling, CHEMOMETRICS AND INTELLIGENT LABORATORY SYSTEMS,
 #'  149, 215-226.
-#' @references Park, E.S. and Oh, M-S. (2016), Bayesian Quantile Multivariate
-#'  Receptor Modeling, CHEMOMETRICS AND INTELLIGENT LABORATORY SYSTEMS,
-#'  159, 174-180.
-#'
 #' @references Plummer, M. 2003. JAGS: A program for analysis of Bayesian
 #' graphical models using Gibbs sampling. Proceedings of the 3rd
 #' international workshop on distributed statistical computing, pp. 125.

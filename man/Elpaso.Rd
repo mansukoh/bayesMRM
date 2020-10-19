@@ -8,11 +8,11 @@ PM2.5 speciation data from El Paso, Texas, USA.
 The data frame ahs the following components:
 
 \itemize{
-\item \emph{Y} 224 by 15 matrix of 224 observations on 15 PM2.5 species.  
-PM 2.5 was measured every three days during the time period of 
-1/2/2006 ~ 4/7/2009 from the Chamizal station in the city of El Paso, USA. 
+\item \emph{Y} 224 by 15 matrix of 224 observations on 15 PM2.5 species.
+PM 2.5 was measured every three days during the time period of
+1/2/2006 ~ 4/7/2009 from the Chamizal station in the city of El Paso, USA.
 Out of the 58 original PM 2.5 species, 15 species were selected. After removing
-any observations with missig values, the final data consists of 224 complete 
+any observations with missig values, the final data consists of 224 complete
 observatins on the following 15 PM2.5 species.
   \describe{
     \item{Al}{Aluminum}
@@ -32,16 +32,16 @@ observatins on the following 15 PM2.5 species.
     \item{Zn}{Zinc}
 }
 
-\item \emph{muP}  4 by 15 matrix of the prior mean of the source composition matrix P for Elpaso data.  Zero values  are assigned for some elements of muP to satisfy the 
-identifiability conditions C1-C2 in Park and Oh (2015). The remaining nonzero elements of muP have value 0.5. Note that the number of sources (the number of rows in muP) 
-is 4 here. 
+\item \emph{muP}  4 by 15 matrix of the prior mean of the source composition matrix P for Elpaso data.  Zero values  are assigned for some elements of muP to satisfy the
+identifiability conditions C1-C2 in Park and Oh (2015). The remaining nonzero elements of muP have value 0.5. Note that the number of sources (the number of rows in muP)
+is 4 here.
 }
 }
 
 \references{
-Park, E.S. and Oh, M-S. (2015), Robust Bayesian Multivariate
- Receptor Modeling, CHEMOMETRICS AND INTELLIGENT LABORATORY SYSTEMS,
-149, 215-226.
+ Park, E.S. and Oh, M-S. (2016), Bayesian Quantile Multivariate
+  Receptor Modeling, CHEMOMETRICS AND INTELLIGENT LABORATORY SYSTEMS,
+  159, 174-180.
 }
 \examples{
 data(Elpaso)
