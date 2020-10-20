@@ -91,8 +91,8 @@
 #'     \item \eqn{E_t =(E_{t1}, \cdots, E_{tJ})} is an error term
 #'           for the \eqn{t}-th observations,
 #'           following \eqn{E_{t} \sim N(0, \Sigma)} or \eqn{E_{t} \sim t_{df}(0, \Sigma)},
-#'          independently for \eqn{j = 1,\cdots,J}, where \eqn{\Sigma = diag(\sigma_{1},...,
-#'      \sigma_{j})}.
+#'          independently for \eqn{j = 1,\cdots,J}, where \eqn{\Sigma = diag(\sigma_{1}^2,...,
+#'      \sigma_{J}^2)}.
 #'  }
 #'
 #' \emph{Priors}
