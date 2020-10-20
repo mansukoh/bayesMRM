@@ -4,12 +4,16 @@
 #' multivariate receptor modeling in a web-based application.
 #' This object contains
 #'  \itemize{
-#'  \item plot of the posterior median and 95\% posterior interval of a variable in
+#'  \item plot of the posterior mean and 95\% posterior interval of parameters in
 #' an object of class \code{bmrm}.
-#'  \item table of the posterior quantiles of a variable in
+#'  \item table of the posterior quantiles of parameters in
 #' an object of class \code{bmrm}, for prob=(0.025, 0.05, 0.25, 0.5, 0.75, 0.95, 0.975).
-#'  \item table of convergence diagnostics measures on MCMC samples of
-#' a variable in an object of class \code{bmrm}.
+#'  \item principal component plots of data (Y) and
+#' source profiles (rows) of the estimated source composition matrix P
+
+#'#  \item table of convergence diagnostics measures on MCMC samples of
+#'# a variable in an object of class \code{bmrm}.
+
 #'  \item time series and ACF plots of the first 12 elements of a variable in an
 #'  object of class \code{bmrm}.
 #' #'   \item time series and ACF plots of a specific  element of a variable in an
@@ -43,6 +47,7 @@ bayesMRMApp<-function(x){
           shiny::radioButtons("type",
                               label = shiny::h3((shiny::strong("Parameter"))),
                               choices=list("P","A","Sigma"),selected="P"),
+
           #shiny::br(),
           #shiny::h4(shiny::strong("Conv Diag")),
           #shiny::radioButtons("convdiag",
