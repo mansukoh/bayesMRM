@@ -63,10 +63,10 @@ plot.bmrm <- function(x,type="both",...){
                             Pid = rep(1:ncol(x$Y),x$nsource))  #each=x$nsource))
 
     P2<-ggplot2::ggplot(ggplot.data,ggplot2::aes(factor(Pid),P))+
-          ggplot2::geom_bar(stat="identity",width=0.5,fill="blue60")+
+          ggplot2::geom_bar(stat="identity",width=0.5,fill="royalblue")+
           ggplot2::facet_grid(K~.,scales="free_y")+ggplot2::xlab("variables")+
           ggplot2::geom_errorbar(ggplot2::aes(ymin=LB,ymax=UB),
-                       color="blue40",width=0.2)+
+                       color="royalblue",width=0.2)+
          ggplot2::scale_x_discrete(labels=colnames(x$Y))
     #if(text)
     #  P2<-P2+ggplot2::geom_text(ggplot2::aes(label=as.character(round(P,2))),
@@ -83,7 +83,7 @@ plot.bmrm <- function(x,type="both",...){
           ggplot2::geom_point()+
           ggplot2::xlab("variables")+
           ggplot2::geom_errorbar(ggplot2::aes(ymin=LB,ymax=UB),
-                       color="blue40",width=0.2)
+                       color="royalblue",width=0.2)
   }
 
   P<-list()
