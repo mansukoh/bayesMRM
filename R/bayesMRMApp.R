@@ -43,12 +43,12 @@ bayesMRMApp<-function(x){
           shiny::radioButtons("type",
                               label = shiny::h3((shiny::strong("Parameter"))),
                               choices=list("P","A","Sigma"),selected="P"),
-          shiny::br(),
-          shiny::h4(shiny::strong("Conv Diag")),
-          shiny::radioButtons("convdiag",
-                              label = shiny::h4(" "),
-                              choices=list( "geweke",
-                                           "heidel"),selected="geweke"),
+          #shiny::br(),
+          #shiny::h4(shiny::strong("Conv Diag")),
+          #shiny::radioButtons("convdiag",
+          #                    label = shiny::h4(" "),
+          #                    choices=list( "geweke",
+          #                                 "heidel"),selected="geweke"),
           shiny::br(),
           shiny::h4(shiny::strong("ID for Trace_ACF plot")),
           shiny::numericInput("source",
@@ -73,9 +73,12 @@ bayesMRMApp<-function(x){
                             shiny::tableOutput("showest")),
             shiny::tabPanel(shiny::h4(shiny::strong("Quantiles")),
                             shiny::tableOutput("showquant")),
-            shiny::tabPanel(shiny::h4(shiny::strong("ConvDiag")),
-                            shiny::tableOutput("showconv")),
-            shiny::tabPanel(shiny::h4(shiny::strong("Trace Plot")),
+           # shiny::tabPanel(shiny::h4(shiny::strong("ConvDiag")),
+          #                  shiny::tableOutput("showconv")),
+          shiny::tabPanel(shiny::h4(shiny::strong("PC Plot")),
+                          shiny::plotOutput("pcplot")),
+
+          shiny::tabPanel(shiny::h4(shiny::strong("Trace Plot")),
                             shiny::plotOutput("showMCMC")),
             shiny::tabPanel(shiny::h4(shiny::strong("Trace_ACF Plot")),
                             shiny::plotOutput("showMCMC_ele"))
@@ -128,32 +131,38 @@ bayesMRMApp<-function(x){
           T
         }
       })
-      output$showconv <- shiny::renderTable({
-        T<-convdiag_bmrm(x,var=input$type,convdiag=input$convdiag,
-                         print=FALSE)
-        if(input$convdiag == "geweke"){
-          T <- T$geweke
-        } else if(input$convdiag == "heidel"){
-          T <- T$heidel
-        }
-        keep.colname<-colnames(T)
-        if(input$type=="A"){
-          T<-data.frame(source=rep(paste0("source",1:x$nsource),each=x$nobs),
-                        obs=rep(1:x$nobs,x$nsource),T)
-          colnames(T)[-(1:2)]<-keep.colname
-          T
-        } else if(input$type=="P"){
-          T<-data.frame(source=rep(paste0("source",1:x$nsource),x$nvar),
-                        variable=rep(colnames(x$Y),each=x$nsource),T)
-          colnames(T)[-(1:2)]<-keep.colname
-          T
-        } else if(input$type=="Sigma"){
-          T=data.frame(variable=colnames(x$Y),T)
-          colnames(T)[-1]<-keep.colname
-          T
-        }
+
+      output$pcplot <- shiny::renderPlot({
+        pcplot(x)
       })
-      output$showMCMC <- shiny::renderPlot({
+
+    #  output$showconv <- shiny::renderTable({
+    #    T<-convdiag_bmrm(x,var=input$type,convdiag=input$convdiag,
+    #                     print=FALSE)
+    #    if(input$convdiag == "geweke"){
+    #      T <- T$geweke
+    #    } else if(input$convdiag == "heidel"){
+    #      T <- T$heidel
+    #    }
+    #    keep.colname<-colnames(T)
+    #    if(input$type=="A"){
+    #      T<-data.frame(source=rep(paste0("source",1:x$nsource),each=x$nobs),
+    #                    obs=rep(1:x$nobs,x$nsource),T)
+    #      colnames(T)[-(1:2)]<-keep.colname
+    #      T
+    #    } else if(input$type=="P"){
+    #      T<-data.frame(source=rep(paste0("source",1:x$nsource),x$nvar),
+    #                    variable=rep(colnames(x$Y),each=x$nsource),T)
+    #      colnames(T)[-(1:2)]<-keep.colname
+    #      T
+    #    } else if(input$type=="Sigma"){
+    #      T=data.frame(variable=colnames(x$Y),T)
+    #      colnames(T)[-1]<-keep.colname
+    #      T
+    #    }
+    #  })
+
+        output$showMCMC <- shiny::renderPlot({
                 trace_ACF_plot(x,var=input$type, nplot=12)
       })
       output$showMCMC_ele <- shiny::renderPlot({
