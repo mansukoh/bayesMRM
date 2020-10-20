@@ -4,19 +4,16 @@
 #' multivariate receptor modeling in a web-based application.
 #' This object contains
 #'  \itemize{
-#'  \item plot of the posterior mean and 95\% posterior interval of parameters in
+#'  \item plots of the posterior means and 95\% posterior intervals of parameters in
 #' an object of class \code{bmrm}.
-#'  \item table of the posterior quantiles of parameters in
+#'  \item tables of the posterior quantiles of parameters in
 #' an object of class \code{bmrm}, for prob=(0.025, 0.05, 0.25, 0.5, 0.75, 0.95, 0.975).
 #'  \item principal component plots of data (Y) and
 #' source profiles (rows) of the estimated source composition matrix P
-
-#'#  \item table of convergence diagnostics measures on MCMC samples of
-#'# a variable in an object of class \code{bmrm}.
-
-#'  \item time series and ACF plots of the first 12 elements of a variable in an
+#' in an object of class \code{bmrm}
+#'  \item trace plots and ACF plots of the first 12 elements of a variable in an
 #'  object of class \code{bmrm}.
-#' #'   \item time series and ACF plots of a specific  element of a variable in an
+#' \item trace plots and ACF plots of a specific  element of a variable in an
 #'  object of class \code{bmrm}.
 #'  }
 #' @usage bayesMRMApp(x)
