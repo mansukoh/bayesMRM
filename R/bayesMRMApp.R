@@ -77,11 +77,11 @@ bayesMRMApp<-function(x){
            # shiny::tabPanel(shiny::h4(shiny::strong("ConvDiag")),
           #                  shiny::tableOutput("showconv")),
           shiny::tabPanel(shiny::h4(shiny::strong("PC Plot")),
-                          shiny::plotOutput("pcplot")),
+                          rgl::rglwidgetOutput("pcplot")),
 
-          #           shiny::tabPanel(shiny::h4(shiny::strong("Trace_ACF Plot")),
-          #                            shiny::plotOutput("showMCMC_ele")),
-
+#                     shiny::tabPanel(shiny::h4(shiny::strong("Trace_ACF Plot")),
+#                                      shiny::plotOutput("showMCMC_ele"))
+#
           shiny::tabPanel(shiny::h4(shiny::strong("Trace Plot")),
                             shiny::plotOutput("showMCMC"))
           )
@@ -134,8 +134,26 @@ bayesMRMApp<-function(x){
         }
       })
 
-      output$pcplot <- shiny::renderPlot({
-        pcplot(x)
+      output$pcplot <- rgl::renderRglwidget({
+        #pcplot(x,g3D=TRUE)
+        rgl.open(useNULL=T)
+        Y <- x$Y
+        Yn <- t(apply(Y,1,function(x) x/sum(x)) )
+
+        Phat <- x$P.hat
+        Pn <- t(apply(Phat,1,function(x) x/sum(x)) )
+        Y.svd <- svd(stats::cor(Y))
+        Z <- Yn %*%Y.svd$v
+        S <- Pn %*%Y.svd$v
+        G3D.data<-rbind(Z[,1:3],S[,1:3])
+        G3D.color<-c(rep("lightblue",nrow(Z)),rep("red",3))
+        G3D.pch<-c(rep(16,nrow(Z)),c(2,3,4))
+        G3D.text<-paste0("S",1:nrow(S))
+        rgl::plot3d(G3D.data[,1:3],col=G3D.color,
+                    xlab="z1",ylab="z2",zlab="z3",radius=0.005,type="s",family=2)
+        rgl::text3d(G3D.data[-(1:nrow(Y)),1:3],text=G3D.text,pos=1,font=2)
+        rgl::bg3d("white")
+        rgl::rglwidget()
       })
 
     #  output$showconv <- shiny::renderTable({
@@ -165,12 +183,13 @@ bayesMRMApp<-function(x){
     #  })
 
         output$showMCMC <- shiny::renderPlot({
+          print(input$type)
                 trace_ACF_plot(x,var=input$type, nplot=12)
       })
- #     output$showMCMC_ele <- shiny::renderPlot({
+#      output$showMCMC_ele <- shiny::renderPlot({
 #              trace_ACF_plot_indiv(x,var=input$type,sourceID=input$source,
 #                                    varID=input$var,obsID=input$obs)
-#      })
+ #     })
     }#end server
   )#end App
   shiny::runApp(EMS_app,launch.browser=TRUE)
