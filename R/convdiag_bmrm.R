@@ -7,7 +7,7 @@
 #' "P" (source composition or profile matrix), or
 #' "Sigma" (error variance).
 #' @param convdiag  vector of convergence diagnostic measures. It should be any subvector
-#'  of ("geweke", "heidel") (default="heidel").
+#'  of ("geweke", "heidel") (default="geweke").
 #' @param print TRUE/FALSE, print convergence diagnostics results (default=TRUE)
 #' @param ... arguments to be passed to methods
 #'
@@ -21,11 +21,23 @@
 #' \code{convdiag} does not include "heidel"}
 #' }
 #'
-#' @details     The functions  \code{geweke.diag}, \code{heidel.diag}
-#'  in \bold{coda} package are used to compute these diagnostics.
-#'  In our package, \code{frac1=0.1, frac2=0.5} are used as parameters of the function
-#'  \code{coda::geweke.diag} and \code{eps = 0.1, pvalue = 0.05} are used as
-#'   parameters of the function \code{coda::heidel.diag}.
+#' @details
+#'  Geweke's  convergence diagnostic for Markov chains is based on
+#'  a test for equality of the means of the first and last part of a Markov chain
+#'  (by default the first 10% and the last 50%).
+#'  If the samples are drawn from the stationary distribution of the chain,
+#'  the two means are equal and Geweke's statistic has an asymptotically
+#'  standard normal distribution. We use the function \code{geweke.diag} in \bold{coda}
+#'   package (with default option) which provides the test statistics (standard Z-scores) and the upper bound of
+#'   and p-values.
+#'
+#'  Heidelberger and Welch's  convergence diagnostic tests the
+#'  null hypothesis that the sampled values come from a stationary distribution.
+#'   The test is successively applied, firstly to the whole chain, then after
+#'    discarding the first 10%, 20%, ... of the chain until either
+#'    the null hypothesis is accepted, or 50% of the chain has been discarded.
+#'    We use the function  \code{heidel.diag} (with default option) which provides
+#'    the test results and p-values.
 
 #' @references Geweke, J.(1992) Evaluating the accuracy of sampling-based
 #' approaches to calculating posterior moments. In Bayesian Statistics 4
