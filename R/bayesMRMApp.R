@@ -136,7 +136,7 @@ bayesMRMApp<-function(x){
 
       output$pcplot <- rgl::renderRglwidget({
         #pcplot(x,g3D=TRUE)
-        rgl.open(useNULL=T)
+        rgl::rgl.open(useNULL=T)
         Y <- x$Y
         Yn <- t(apply(Y,1,function(x) x/sum(x)) )
 
