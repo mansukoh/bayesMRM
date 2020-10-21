@@ -79,10 +79,11 @@ bayesMRMApp<-function(x){
           shiny::tabPanel(shiny::h4(shiny::strong("PC Plot")),
                           shiny::plotOutput("pcplot")),
 
+          #           shiny::tabPanel(shiny::h4(shiny::strong("Trace_ACF Plot")),
+          #                            shiny::plotOutput("showMCMC_ele")),
+
           shiny::tabPanel(shiny::h4(shiny::strong("Trace Plot")),
-                            shiny::plotOutput("showMCMC")),
- #           shiny::tabPanel(shiny::h4(shiny::strong("Trace_ACF Plot")),
-#                            shiny::plotOutput("showMCMC_ele"))
+                            shiny::plotOutput("showMCMC"))
           )
         )
       )), #end ui
