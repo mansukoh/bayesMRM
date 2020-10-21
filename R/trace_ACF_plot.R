@@ -28,23 +28,34 @@
 #' out.Elpaso <- bmrm(Y,q,muP, nAdapt=1000,nBurnIn=5000,nIter=5000,nThin=1)
 #' trace_ACF_plot(out.Elpaso,"Sigma")
 #' trace_ACF_plot(out.Elpaso,"P", ACF=T, saveFile=TRUE)
-#' trace_ACF_plot(out.Elpaso,"A", nplot=12)
+#' trace_ACF_plot(out.Elpaso,"A", nplot=12, irow=2, icol=3)
 #' }
 #'
 
-trace_ACF_plot <- function(x,var="P", ACF=FALSE, nplot=0,saveFile=FALSE,...){
+trace_ACF_plot <- function(x,var="P",  ACF=FALSE, nplot=0,irow=1, icol=1, saveFile=FALSE,...){
 
   if (var== "P"  & nplot == 0) nplot=nrow(x$P.hat)*ncol( x$P.hat)
   if (var== "Sigma"  & nplot == 0 ) nplot=ncol( x$Y)
   if (var== "A"  & nplot == 0 ) nplot=12
 
+
+
   var.list<-coda::varnames(x$codaSamples)
   var.list1<-unlist(lapply(var.list,function(x) strsplit(x,"\\[")[[1]][1]))
   id.list<-which(var.list1==var)
+
+  if( var =="P" & nplot>0 & nplot< length(id.list)) {
+       istart= irow*x$nsource + icol
+  }
+
+  if( var =="A" & nplot>0 & nplot< length(id.list)) {
+    istart= irow*x$nobs + icol
+  }
+
   j<-0
   if(!saveFile){
     if(length(id.list)>nplot){
-       sel.id<- id.list[1:nplot] #  sample(id.list,size=nplot,replace=FALSE)
+       sel.id<- id.list[istart:(istart+nplot)] #  sample(id.list,size=nplot,replace=FALSE)
      } else{
        sel.id<-id.list
     }
