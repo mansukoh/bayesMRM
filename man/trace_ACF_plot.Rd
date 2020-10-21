@@ -5,7 +5,7 @@
 \title{Trace and/or ACF plots of elements of a variable
  in \code{bmrm} object}
 \usage{
-trace_ACF_plot(x,var="P",ACF=FALSE, nplot=12,saveFile=FALSE,...)
+trace_ACF_plot(x,var="P",ACF=FALSE, nplot=12,irow=2, icol=3,saveFile=FALSE,...)
 }
 \arguments{
 \item{x}{an object of class \code{bmrm}, the output of the \code{bmrm} function}
@@ -25,6 +25,12 @@ smaller than the total number of elements of 'var' then plots of the first
   (default=0  implies that all elements will be selected if var="P" or "Sigma"
   and the first 12 elements will be selected  if  var="A")}
 
+\item{irow}{row number of  A  or P.  Plots of 'nplot' elements starting
+from (irow, icol) element of A or P will be drawn (default=1).}
+
+\item{icol}{column number of  A  or P.  Plots of 'nplot' elements starting
+from (irow, icol) element of A or P will be drawn (default=1).}
+
 \item{saveFile}{TRUE/FALSE, save the plots in file
 \emph{'var'-trace.pdf} (default=FALSE)}
 
@@ -41,7 +47,7 @@ data(Elpaso); Y=Elpaso$Y ; muP=Elpaso$muP ; q=nrow(muP)
 out.Elpaso <- bmrm(Y,q,muP, nAdapt=1000,nBurnIn=5000,nIter=5000,nThin=1)
 trace_ACF_plot(out.Elpaso,"Sigma")
 trace_ACF_plot(out.Elpaso,"P", ACF=T, saveFile=TRUE)
-trace_ACF_plot(out.Elpaso,"A", nplot=12)
+trace_ACF_plot(out.Elpaso,"A", nplot=12, irow=2, icol=3)
 }
 
 }

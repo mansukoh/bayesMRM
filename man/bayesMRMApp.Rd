@@ -21,9 +21,7 @@ an object of class \code{bmrm}, for prob=(0.025, 0.05, 0.25, 0.5, 0.75, 0.95, 0.
  \item principal component plots of data (Y) and
 source profiles (rows) of the estimated source composition matrix P
 in an object of class \code{bmrm}
- \item trace plots and ACF plots of the first 12 elements of a variable in an
- object of class \code{bmrm}.
-\item trace plots and ACF plots of a specific  element of a variable in an
+ \item trace plots and ACF plots of the first 12 elements of a parameter in an
  object of class \code{bmrm}.
  }
 }

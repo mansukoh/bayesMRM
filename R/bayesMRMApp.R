@@ -11,9 +11,7 @@
 #'  \item principal component plots of data (Y) and
 #' source profiles (rows) of the estimated source composition matrix P
 #' in an object of class \code{bmrm}
-#'  \item trace plots and ACF plots of the first 12 elements of a variable in an
-#'  object of class \code{bmrm}.
-#' \item trace plots and ACF plots of a specific  element of a variable in an
+#'  \item trace plots and ACF plots of the first 12 elements of a parameter in an
 #'  object of class \code{bmrm}.
 #'  }
 #' @usage bayesMRMApp(x)
@@ -82,8 +80,8 @@ bayesMRMApp<-function(x){
 
           shiny::tabPanel(shiny::h4(shiny::strong("Trace Plot")),
                             shiny::plotOutput("showMCMC")),
-            shiny::tabPanel(shiny::h4(shiny::strong("Trace_ACF Plot")),
-                            shiny::plotOutput("showMCMC_ele"))
+ #           shiny::tabPanel(shiny::h4(shiny::strong("Trace_ACF Plot")),
+#                            shiny::plotOutput("showMCMC_ele"))
           )
         )
       )), #end ui
@@ -167,10 +165,10 @@ bayesMRMApp<-function(x){
         output$showMCMC <- shiny::renderPlot({
                 trace_ACF_plot(x,var=input$type, nplot=12)
       })
-      output$showMCMC_ele <- shiny::renderPlot({
-              trace_ACF_plot_indiv(x,var=input$type,sourceID=input$source,
-                                    varID=input$var,obsID=input$obs)
-      })
+ #     output$showMCMC_ele <- shiny::renderPlot({
+#              trace_ACF_plot_indiv(x,var=input$type,sourceID=input$source,
+#                                    varID=input$var,obsID=input$obs)
+#      })
     }#end server
   )#end App
   shiny::runApp(EMS_app,launch.browser=TRUE)

@@ -4,7 +4,7 @@
 #'  of  elements of A, P, Sigma.
 #' @title Trace and/or ACF plots of elements of a variable
 #'  in \code{bmrm} object
-#' @usage trace_ACF_plot(x,var="P",ACF=FALSE, nplot=12,saveFile=FALSE,...)
+#' @usage trace_ACF_plot(x,var="P",ACF=FALSE, nplot=12,irow=2, icol=3,saveFile=FALSE,...)
 #' @param x an object of class \code{bmrm}, the output of the \code{bmrm} function
 #' @param var name of a variable to which the plots apply.  It sould be one of
 #' "A" (source contribution matrix),
@@ -18,6 +18,10 @@
 #'   elements will be drawn.
 #'    (default=0  implies that all elements will be selected if var="P" or "Sigma"
 #'    and the first 12 elements will be selected  if  var="A")
+#' @param irow row number of  A  or P.  Plots of 'nplot' elements starting
+#' from (irow, icol) element of A or P will be drawn (default=1).
+#' @param icol column number of  A  or P.  Plots of 'nplot' elements starting
+#' from (irow, icol) element of A or P will be drawn (default=1).
 #' @param saveFile TRUE/FALSE, save the plots in file
 #' \emph{'var'-trace.pdf} (default=FALSE)
 #' @param ... arguments to be passed to methods
@@ -37,8 +41,6 @@ trace_ACF_plot <- function(x,var="P",  ACF=FALSE, nplot=0,irow=1, icol=1, saveFi
   if (var== "P"  & nplot == 0) nplot=nrow(x$P.hat)*ncol( x$P.hat)
   if (var== "Sigma"  & nplot == 0 ) nplot=ncol( x$Y)
   if (var== "A"  & nplot == 0 ) nplot=12
-
-
 
   var.list<-coda::varnames(x$codaSamples)
   var.list1<-unlist(lapply(var.list,function(x) strsplit(x,"\\[")[[1]][1]))
