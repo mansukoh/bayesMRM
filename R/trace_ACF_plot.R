@@ -49,9 +49,11 @@ trace_ACF_plot <- function(x,var="P",  ACF=FALSE, nplot=0,irow=1, icol=1, saveFi
   if( var =="P" & nplot>0 & nplot< length(id.list)) {
        istart= (icol-1)*x$nsource + irow
   }
-
   if( var =="A" & nplot>0 & nplot< length(id.list)) {
     istart= (icol-1)*x$nobs + irow
+  }
+  if( var =="Sigma" & nplot>0 & nplot< length(id.list)) {
+    istart= 1
   }
 
   j<-0
