@@ -45,11 +45,11 @@ trace_ACF_plot <- function(x,var="P",  ACF=FALSE, nplot=0,irow=1, icol=1, saveFi
   id.list<-which(var.list1==var)
 
   if( var =="P" & nplot>0 & nplot< length(id.list)) {
-       istart= (irow-1)*x$nsource + icol
+       istart= (icol-1)*x$nsource + irow
   }
 
   if( var =="A" & nplot>0 & nplot< length(id.list)) {
-    istart= (irow-1)*x$nobs + icol
+    istart= (icol-1)*x$nobs + irow
   }
 
   j<-0
