@@ -184,7 +184,7 @@ bayesMRMApp<-function(x){
 
         output$showMCMC <- shiny::renderPlot({
           print(input$type)
-                trace_ACF_plot(x,var=input$type, nplot=12)
+                trace_ACF_plot(x,var=input$type, ACF=T, nplot=6)
       })
 #      output$showMCMC_ele <- shiny::renderPlot({
 #              trace_ACF_plot_indiv(x,var=input$type,sourceID=input$source,
