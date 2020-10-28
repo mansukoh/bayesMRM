@@ -63,10 +63,10 @@ plot.bmrm <- function(x,type="both",...){
                             Pid = rep(1:ncol(x$Y),x$nsource))  #each=x$nsource))
 
     P2<-ggplot2::ggplot(ggplot.data,ggplot2::aes(factor(Pid),P))+
-          ggplot2::geom_bar(stat="identity",width=0.5,fill="steelblue")+
+          ggplot2::geom_bar(stat="identity",width=0.5,fill="cyan")+
           ggplot2::facet_grid(K~.,scales="free_y")+ggplot2::xlab("variables")+
           ggplot2::geom_errorbar(ggplot2::aes(ymin=LB,ymax=UB),
-                       color="steelblue",width=0.2)+
+                       color="black",width=0.2)+
          ggplot2::scale_x_discrete(labels=colnames(x$Y))
     #if(text)
     #  P2<-P2+ggplot2::geom_text(ggplot2::aes(label=as.character(round(P,2))),
@@ -76,14 +76,14 @@ plot.bmrm <- function(x,type="both",...){
     ggplot.data<-data.frame(LB=x$Sigma.quantiles[,"2.5%"]*100,
                             Med=x$Sigma.quantiles[,"50%"]*100,
                             UB=x$Sigma.quantiles[,"97.5%"]*100,
-                            Sigma=c(x$Sigma.hat*100),
+                            Sigma.mean=c(x$Sigma.hat*100),
                             Pname=rep(colnames(x$Y)))
 
-    P3<-ggplot2::ggplot(ggplot.data,ggplot2::aes(Pname,Sigma))+
+    P3<-ggplot2::ggplot(ggplot.data,ggplot2::aes(Pname,Sigma.mean))+
           ggplot2::geom_point()+
           ggplot2::xlab("variables")+
           ggplot2::geom_errorbar(ggplot2::aes(ymin=LB,ymax=UB),
-                       color="steelblue",width=0.2)
+                       color="black",width=0.2)
   }
 
   P<-list()
