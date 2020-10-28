@@ -71,11 +71,8 @@ trace_ACF_plot <- function(x,var="P", ACF=TRUE, nplot=0,irow=1, icol=1, saveFile
        sel.id<-id.list
     }
 
-    if ( ACF==T){
-      graphics::par(mfrow=c(3,2))
-    } else{
-      graphics::par(mfrow=c(3,4))
-    }
+    graphics::par(mfrow=c(3,4))
+
 
     for(i in sel.id){
       j<-j+1
