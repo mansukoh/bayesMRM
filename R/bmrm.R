@@ -30,7 +30,7 @@
 #'    (default=0.01)
 #' @param nAdapt  number of iterations for adaptation in JAGS (default=1000)
 #' @param nBurnIn number of iterations for the burn-in period in MCMC (default=5000)
-#' @param nIter number of iterations per chain for monitoring samples from MCMC
+#' @param nIter number of iterations for monitoring samples from MCMC
 #'   (default=5000). \code{nIter} samples are saved in each chain of M CMC.
 #' @param nThin thinning interval for monitoring samples from MCMC (default=1)
 #' @param P.init initial value of the source composition matrix P. It should have
@@ -64,7 +64,7 @@
 #'   0.25, 0.5, 0.75, 0.95, 0.975)}
 #'   \item{Sigma.quantiles}{posterior quantiles of Sigma for prob=(0.025, 0.05,
 #'   0.25, 0.5, 0.75, 0.95, 0.975)}
-#'   \item{Y.hat}{estimate of Y computed from A.hat*P.hat}
+#'   \item{Y.hat}{predicted value of Y computed from A.hat*P.hat}
 #'   \item{residual}{Y-Y.hat}
 #'   \item{codaSamples}{MCMC posterior samples of A, P, and \eqn{\Sigma} in class "mcmc.list"}
 #'   \item{nIter}{number of MCMC iterations per chain for monitoring samples from MCMC}
@@ -87,7 +87,7 @@
 #'     \item \eqn{P} is a \eqn{q \times J}  source composition
 #'             matrix in which the \eqn{k}-th row represents the \eqn{k}-th source
 #'            composition profiles, \eqn{k=1,\cdots,q}, \eqn{q} is the number of sources.
-#'     \item \eqn{A_t} is a J dimensional source contribution vector at time \eqn{t},
+#'     \item \eqn{A_t} is a \eqn{q} dimensional source contribution vector at time \eqn{t},
 #'            \eqn{t=1,\cdots,T}.
 #'     \item \eqn{E_t =(E_{t1}, \cdots, E_{tJ})} is an error term
 #'           for the \eqn{t}-th observations,

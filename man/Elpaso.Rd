@@ -32,9 +32,8 @@ observatins on the following 15 PM2.5 species.
     \item{Zn}{Zinc}
 }
 
-\item \emph{muP}  4 by 15 matrix of the prior mean of the source composition matrix P for Elpaso data.  Zero values  are assigned for some elements of muP to satisfy the
-identifiability conditions C1-C2 in Park and Oh (2015). The remaining nonzero elements of muP have value 0.5. Note that the number of sources (the number of rows in muP)
-is 4 here.
+\item \emph{muP}  4 by 15 matrix of the prior mean of the source composition matrix P for data.  Zero values  are assigned for some elements of muP to satisfy the
+identifiability conditions C1-C2 in Park and Oh (2015). The remaining nonzero elements of muP have value 0.5. Note that the number of sources (the number of rows in muP) is presumed to be 4 here.
 }
 }
 
