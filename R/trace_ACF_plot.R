@@ -12,7 +12,7 @@
 #' "Sigma" (error variance).
 #' @param ACF TRUE/FALSE  IF TRUE ACF plot will be provided along with trace
 #'  plot (dafault: FALSE)
-#' @param nplot  number of elements of 'var' for trace/ACF plot. If 'nplot' is
+#' @param nplot  number of elements of 'var' for trace and/or ACF plot. If 'nplot' is
 #'  smaller than the total number of elements of 'var' then plots of
 #'  'nplot' selected elements will be drawn. Otherwise, trace/ACF plots of  all
 #'   elements will be drawn.
