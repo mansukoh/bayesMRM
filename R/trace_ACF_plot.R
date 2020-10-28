@@ -1,7 +1,7 @@
 #'
 #' @description Produce trace and Auto-Correlation Function
 #'   plots of MCMC samples
-#'  of  elements of A, P, Sigma.
+#'  of  elements of A, nonzero elements of P, elements of Sigma.
 #' @title Trace and/or ACF plots of elements of a variable
 #'  in \code{bmrm} object
 #' @usage trace_ACF_plot(x,var="P",ACF=FALSE, nplot=12,irow=2, icol=3,saveFile=FALSE,...)
@@ -11,17 +11,18 @@
 #' "P" (source composition or profile matrix),
 #' "Sigma" (error variance).
 #' @param ACF TRUE/FALSE  IF TRUE ACF plot will be provided along with trace
-#'  plot (dafault: FALSE)
+#'  plot (dafault: TRUE)
 #' @param nplot  number of elements of 'var' for trace/ACF plot. If 'nplot' is
 #'  smaller than the total number of elements of 'var' then plots of the first
 #'  'nplot' elements will be drawn. Otherwise, trace/ACF plots of  all
 #'   elements will be drawn.
 #'    (default=0  implies that all elements will be selected if var="P" or "Sigma"
 #'    and the first 12 elements will be selected  if  var="A")
-#' @param irow row number of  A  or P.  Plots of 'nplot' elements starting
-#' from (irow, icol) element of A or P will be drawn (default=1).
-#' @param icol column number of  A  or P.  Plots of 'nplot' elements starting
-#' from (irow, icol) element of A or P will be drawn (default=1).
+#' @param irow row index of A/P matrix or index of diagonal element of Sigma.
+#'     Plots of 'nplot' elements starting
+#' from (irow, icol) element of A/P will be drawn (default=1).
+#' @param icol column number of  A/P matrix.  Plots of 'nplot' elements starting
+#' from (irow, icol) element of A/P will be drawn (default=1).
 #' @param saveFile TRUE/FALSE, save the plots in file
 #' \emph{'var'-trace.pdf} (default=FALSE)
 #' @param ... arguments to be passed to methods
@@ -36,7 +37,7 @@
 #' }
 #'
 
-trace_ACF_plot <- function(x,var="P",  ACF=FALSE, nplot=0,irow=1, icol=1, saveFile=FALSE,...){
+trace_ACF_plot <- function(x,var="P", ACF=TRUE, nplot=0,irow=1, icol=1, saveFile=FALSE,...){
 
   if (var== "P"  & nplot == 0) nplot=nrow(x$P.hat)*ncol( x$P.hat)
   if (var== "Sigma"  & nplot == 0 ) nplot=ncol( x$Y)
@@ -45,7 +46,11 @@ trace_ACF_plot <- function(x,var="P",  ACF=FALSE, nplot=0,irow=1, icol=1, saveFi
   var.list<-coda::varnames(x$codaSamples)
   var.list1<-unlist(lapply(var.list,function(x) strsplit(x,"\\[")[[1]][1]))
   id.list<-which(var.list1==var)
+  if (var =="P" ){ id.list= id.list[as.vector(x$muP) != 0  ]   }
 
+  nplot=min( nplot, length(id.list))
+
+  istart=1
   if( var =="P" & nplot>0 & nplot< length(id.list)) {
        istart= (icol-1)*x$nsource + irow
   }
@@ -53,26 +58,33 @@ trace_ACF_plot <- function(x,var="P",  ACF=FALSE, nplot=0,irow=1, icol=1, saveFi
     istart= (icol-1)*x$nobs + irow
   }
   if( var =="Sigma" & nplot>0 & nplot< length(id.list)) {
-    istart= 1
+    istart= irow
   }
+
+  #if( ACF==T ) nplot=as.integer(nplot/2)
 
   j<-0
   if(!saveFile){
     if(length(id.list)>nplot){
-       sel.id<- id.list[istart:(istart-1+nplot)] #  sample(id.list,size=nplot,replace=FALSE)
+           sel.id<- id.list[istart:(istart-1+nplot)] #sample(id.list,size=nplot,replace=FALSE)
      } else{
        sel.id<-id.list
     }
 
-    #par("mar")
-    par(mar=rep(2,4))
-
 
     for(i in sel.id){
       j<-j+1
-      if(j %%(3*4) ==1){
-         if( j >1 ) grDevices::X11();
+
+      if( ACF==F & j %%(3*4) ==1){ #if( j >1 ){
+       grDevices::X11()
+       graphics::par(mfrow=c(3,4))
+       graphics::par(mar=rep(2,4))
+      }
+
+      if( ACF==T & j %%(3*2) ==1){ #if( j >1 ){
+        grDevices::X11()
         graphics::par(mfrow=c(3,4))
+        graphics::par(mar=rep(2,4))
       }
 
       y <- coda::mcmc.list(x$codaSamples[,i])
@@ -83,21 +95,25 @@ trace_ACF_plot <- function(x,var="P",  ACF=FALSE, nplot=0,irow=1, icol=1, saveFi
         y
       }
       yp <- do.call("cbind", yp)
-      graphics::matplot(xp, yp, xlab = "Iteration", ylab = "", type = 'l',
-              col = 4:4,main=var.list[i])
-      #ESS<-coda::effectiveSize(y)
-      if (ACF==T) stats:: acf(as.matrix(y),main="") #paste0("ESS=",round(ESS,2)))
+      graphics::matplot(xp,yp,xlab="Iteration",ylab="",type ='l',
+           col = 4:4,main=var.list[i])
+         #ESS<-coda::effectiveSize(y)
+      if (ACF==T) stats::acf(as.matrix(y),main="") #paste0("ESS=",round(ESS,2)))
     }
-  } else{
-    grDevices::pdf(paste0(var,"-trace_ACF.pdf")) # ,width=6,height=4,paper='special')
+
+  } else {
+
+    grDevices::pdf(paste0(var,"-trace_ACF.pdf")) #,width=6,height=4,paper='special')
     graphics::par(mfrow=c(3,4))
+    graphics::par(mar=rep(2,4))
 
     if(length(id.list)>nplot){
-      sel.id<-sample(id.list,size=nplot,replace=FALSE)
+      sel.id<- id.list[istart:(istart-1+nplot)]
     } else{
       sel.id<-id.list
     }
-    #grid<-ceiling(sqrt(nplot))
+
+        #grid<-ceiling(sqrt(nplot))
 
     for(i in sel.id){
       j<-j+1
@@ -113,8 +129,10 @@ trace_ACF_plot <- function(x,var="P",  ACF=FALSE, nplot=0,irow=1, icol=1, saveFi
                         col = 4:4,main=var.list[i])
       #ESS<-coda::effectiveSize(y)
       if(ACF == T) stats:: acf(as.matrix(y),main="") #paste0("ESS=",round(ESS,2)))
-       }
+    }
+
     grDevices::dev.off()
     print(paste0("Save as ", getwd(),"/",var,"-trace_ACF.pdf"))
   }
- }
+
+  }

@@ -49,6 +49,7 @@
 #'   \item{nobs}{number of observations in data Y}
 #'   \item{nvar}{number of variables in data Y}
 #'   \item{Y}{observed data matrix}
+#'   \item{muP}{prior mean of the source composition matrix P}
 #'   \item{errdist}{error distribution}
 #'   \item{df}{degrees of freedom when errdist="t"}
 #'   \item{A.hat}{posterior mean of the source contribution matrix A}
@@ -427,6 +428,7 @@ bmrm = function(Y,q,muP,errdist="norm", df=4,
   out$nobs= T
   out$nvar= J
   out$Y = Y
+  out$muP = muP
   out$errdist = errdist
   out$df=df
   out$A.hat = A.hat
