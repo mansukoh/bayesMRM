@@ -2,7 +2,7 @@
 #' @description  Check the identifiability conditions C1-C2 of Park and Oh (2015).
 #' @title Check the identifiability conditions
 #' @usage idCond_check(P)
-#' @param P  the source composition matrix in multivariate receptor model
+#' @param P  source composition matrix in multivariate receptor model
 
 
 idCond_check = function(P){
