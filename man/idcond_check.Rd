@@ -8,7 +8,7 @@
 idCond_check(P)
 }
 \arguments{
-\item{P}{the source composition matrix in multivariate receptor model}
+\item{P}{source composition matrix in multivariate receptor model}
 }
 \description{
 Check the identifiability conditions C1-C2 of Park and Oh (2015).

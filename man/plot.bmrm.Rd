@@ -26,8 +26,8 @@ based on the MCMC samples in \code{bmrm}.
 \details{
 The following types of plots are drawn depending on the selected parameters:
 \itemize{
-\item P: bar plots of the posterior medians with 95\% posterior intervals of elements for each row of P
-\item A: time series plots of  posterior medians with 95\% posterior intervals elements for each column of A
-\item Sigma: bar plots of  posterior medians with 95\% posterior intervals of elements of Sigma
+\item P: bar plots of the posterior means with 95\% posterior intervals of elements for each row of P
+\item A: time series plots of  posterior means with 95\% posterior intervals elements for each column of A
+\item Sigma: bar plots of  posterior means with 95\% posterior intervals of elements of Sigma
  }
 }

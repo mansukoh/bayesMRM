@@ -36,11 +36,11 @@ Compute convergence diagnostic measures of
  Geweke (1992), Heidelberger and Welch (1983).
 }
 \details{
-Geweke's  convergence diagnostic for Markov chains is based on
+Geweke's convergence diagnostic for Markov chains is based on
  a test for equality of the means of the first and last part of a Markov chain
- (by default the first 10% and the last 50%).
+ (by default the first 10\% and the last 50\%).
  If the samples are drawn from the stationary distribution of the chain,
- the two means are equal and Geweke's statistic has an asymptotically
+ the two means should be equal and Geweke's statistic has an asymptotically
  standard normal distribution. We use the function \code{geweke.diag} in \bold{coda}
   package (with default option) which provides the test statistics (standard Z-scores) and the upper bound of
   and p-values.
@@ -48,8 +48,8 @@ Geweke's  convergence diagnostic for Markov chains is based on
  Heidelberger and Welch's  convergence diagnostic tests the
  null hypothesis that the sampled values come from a stationary distribution.
   The test is successively applied, firstly to the whole chain, then after
-   discarding the first 10%, 20%, ... of the chain until either
-   the null hypothesis is accepted, or 50% of the chain has been discarded.
+   discarding the first 10\%, 20\%, ... of the chain until either
+   the null hypothesis is accepted, or 50\% of the chain has been discarded.
    We use the function  \code{heidel.diag} (with default option) which provides
    the test results and p-values.
 }

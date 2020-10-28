@@ -45,7 +45,7 @@ source contribution vector at time t (default=identity matrix)}
 
 \item{nBurnIn}{number of iterations for the burn-in period in MCMC (default=5000)}
 
-\item{nIter}{number of iterations per chain for monitoring samples from MCMC
+\item{nIter}{number of iterations for monitoring samples from MCMC
 (default=5000). \code{nIter} samples are saved in each chain of M CMC.}
 
 \item{nThin}{thinning interval for monitoring samples from MCMC (default=1)}
@@ -71,6 +71,7 @@ in \code{bmrm} object
   \item{nobs}{number of observations in data Y}
   \item{nvar}{number of variables in data Y}
   \item{Y}{observed data matrix}
+  \item{muP}{prior mean of the source composition matrix P}
   \item{errdist}{error distribution}
   \item{df}{degrees of freedom when errdist="t"}
   \item{A.hat}{posterior mean of the source contribution matrix A}
@@ -85,7 +86,7 @@ in \code{bmrm} object
   0.25, 0.5, 0.75, 0.95, 0.975)}
   \item{Sigma.quantiles}{posterior quantiles of Sigma for prob=(0.025, 0.05,
   0.25, 0.5, 0.75, 0.95, 0.975)}
-  \item{Y.hat}{estimate of Y computed from A.hat*P.hat}
+  \item{Y.hat}{predicted value of Y computed from A.hat*P.hat}
   \item{residual}{Y-Y.hat}
   \item{codaSamples}{MCMC posterior samples of A, P, and \eqn{\Sigma} in class "mcmc.list"}
   \item{nIter}{number of MCMC iterations per chain for monitoring samples from MCMC}
@@ -112,7 +113,7 @@ The basic model for Bayesian multivariate receptor model is
     \item \eqn{P} is a \eqn{q \times J}  source composition
             matrix in which the \eqn{k}-th row represents the \eqn{k}-th source
            composition profiles, \eqn{k=1,\cdots,q}, \eqn{q} is the number of sources.
-    \item \eqn{A_t} is a J dimensional source contribution vector at time \eqn{t},
+    \item \eqn{A_t} is a \eqn{q} dimensional source contribution vector at time \eqn{t},
            \eqn{t=1,\cdots,T}.
     \item \eqn{E_t =(E_{t1}, \cdots, E_{tJ})} is an error term
           for the \eqn{t}-th observations,
