@@ -146,11 +146,11 @@ bayesMRMApp<-function(x){
         Pn <- t(apply(Phat,1,function(x) x/sum(x)) )
         Y.svd <- svd(stats::cor(Y))
         Z <- Yn %*%Y.svd$v
-        P <- Pn %*%Y.svd$v
-        G3D.data<-rbind(Z[,1:3],P[,1:3])
+        S <- Pn %*%Y.svd$v
+        G3D.data<-rbind(Z[,1:3],S[,1:3])
         G3D.color<-c(rep("lightblue",nrow(Z)),rep("red",3))
         G3D.pch<-c(rep(16,nrow(Z)),c(2,3,4))
-        G3D.text<-paste0("P",1:nrow(P))
+        G3D.text<-paste0("S",1:nrow(S))
         rgl::plot3d(G3D.data[,1:3],col=G3D.color,
                     xlab="z1",ylab="z2",zlab="z3",
          main="3D dynamic principal component plot of data and the estimate of P.",
