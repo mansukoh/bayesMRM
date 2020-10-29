@@ -107,6 +107,7 @@ bayesMRMApp<-function(x){
         }else if(input$type=="Sigma"){
           T<-x$Sigma.hat
           T <- data.frame(variable=colnames(x$Y),T)
+          digits=4
           T
         }
       })
