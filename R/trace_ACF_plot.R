@@ -31,7 +31,7 @@
 #' \dontrun{
 #' data(Elpaso); Y=Elpaso$Y ; muP=Elpaso$muP ; q=nrow(muP)
 #' out.Elpaso <- bmrm(Y,q,muP, nAdapt=1000,nBurnIn=5000,nIter=5000,nThin=1)
-#' trace_ACF_plot(out.Elpaso,"Sigma", ACF=F)
+#' trace_ACF_plot(out.Elpaso,"Sigma", ACF=T)
 #' trace_ACF_plot(out.Elpaso,"P", ACF=T, saveFile=TRUE)
 #' trace_ACF_plot(out.Elpaso,"A", nplot=12, irow=2, icol=3)
 #' }
