@@ -25,7 +25,8 @@
 #' }
 
 bayesMRMApp<-function(x){
-  EMSaov.env<-new.env()
+
+   EMSaov.env<-new.env()
   varchoice<-1:x$nvar
   names(varchoice)<-colnames(x$Y)
   varchoice<-as.list(varchoice)
@@ -152,8 +153,7 @@ bayesMRMApp<-function(x){
         G3D.text<-paste0("P",1:nrow(P))
         rgl::plot3d(G3D.data[,1:3],col=G3D.color,
                     xlab="z1",ylab="z2",zlab="z3",
-                    main="3D dynamic principal component plot of data and the
-                    estimate of P",
+         main="3D dynamic principal component plot of data and the estimate of P.",
                     radius=0.005,type="s",family=2)
         rgl::text3d(G3D.data[-(1:nrow(Y)),1:3],text=G3D.text,pos=1,font=2)
         rgl::bg3d("white")
