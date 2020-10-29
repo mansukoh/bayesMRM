@@ -22,6 +22,12 @@
 
 
 pcplot <- function(x,P0=NULL,G3D=FALSE,...){
+
+   if(length(rgl::rgl.dev.list())!=0){
+      for(i in 1:length(rgl::rgl.dev.list()))
+         rgl::rgl.close()
+   }
+
    Y <- x$Y
    Yn <- t(apply(Y,1,function(x) x/sum(x)) )
 
@@ -32,7 +38,6 @@ pcplot <- function(x,P0=NULL,G3D=FALSE,...){
    S <- Pn %*%Y.svd$v
 
    if (G3D ){
-     # rgl::rgl.open(1)
       G3D.data<-rbind(Z[,1:3],S[,1:3])
       G3D.color<-c(rep("lightblue",nrow(Z)),rep("red",3))
       G3D.pch<-c(rep(16,nrow(Z)),c(2,3,4))
@@ -48,9 +53,9 @@ pcplot <- function(x,P0=NULL,G3D=FALSE,...){
 
       rgl::plot3d(G3D.data[,1:3],col=G3D.color,
          xlab="z1",ylab="z2",zlab="z3",
-         main="3D 'dynamic' principal component plot of data and the estimate of S",
+         main="3D dynamic principal component plot of data and the estimate of S",
          radius=0.005,type="s",family=2)
-      rgl::text3d(G3D.data[-(1:nrow(Y)),1:3],text=G3D.text,pos=1,font=1, col="blue")
+      rgl::text3d(G3D.data[-(1:nrow(Y)),1:3],text=G3D.text,pos=1,font=2, col="blue")
    } else{
      ggplot.data<-data.frame(Z)
      colnames(ggplot.data)<-paste0("z",1:ncol(ggplot.data))
