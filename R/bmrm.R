@@ -33,11 +33,11 @@
 #' @param nIter number of iterations for monitoring samples from MCMC
 #'   (default=5000). \code{nIter} samples are saved in each chain of M CMC.
 #' @param nThin thinning interval for monitoring samples from MCMC (default=1)
-#' @param P.init initial value of the source composition matrix P. It should have
-#'    zero elements in the same zero positions in muP  and it should
+#' @param P.init initial value of the source composition matrix P. It should
 #'    satisfy the identifiability conditions C1-C2 of Park and Oh (2015).
-#'    If omitted, the nonzero elements of P.init will be randomly generated
-#'    from a uniform distrbution.
+#'    If omitted, zeros are assigned to the elements corresponding to
+#'    zero elements in muP  and the nonzero elements of P.init will be
+#'     randomly generated from a uniform distrbution.
 #' @param A.init initial value of the source contribution matrix A.
 #'    If omitted, it will be calculated from Y and P.init.
 #' @param Sigma.init initial value of the error variance.
@@ -149,7 +149,7 @@
 #' \dontrun{
 #'
 #' data(Elpaso); Y=Elpaso$Y ; muP=Elpaso$muP ; q=nrow(muP)
-#' out.Elpaso <- bmrm(Y,q,muP, nAdapt=1000,nBurnIn=5000,nIter=5000,nThin=1)
+#' out.Elpaso <- bmrm(Y,q,muP)
 #' summary(out.Elpaso)
 #' plot(out.Elpaso)
 #'
@@ -180,7 +180,7 @@ bmrm = function(Y,q,muP,errdist="norm", df=4,
     idCol = which(muP[k,]==0)
     idCond_1 = idCond_1*(length(idCol)  >= q-1)
   }
-  if (idCond_1 != 1){ stop("muP violates the identifiability condition C1
+  if (idCond_1 != 1){ warning("muP violates the identifiability condition C1
   (There are at least   q-1 zero elements in each row of P).") }
 
 
@@ -224,7 +224,7 @@ bmrm = function(Y,q,muP,errdist="norm", df=4,
 
   #P.init<-t(apply(P.init,1,function(x) x/sum(x)))
   check=idCond_check(P.init)
-  if( check != 1) stop("inital value of P does not satisfy the identifiablity
+  if( check != 1) warning("inital value of P does not satisfy the identifiablity
                        conditions ", call.=FALSE)
 
   if( base::is.null(A.init)== TRUE ){
