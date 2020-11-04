@@ -11,10 +11,13 @@
 #' @param Y  data matrix
 #' @param q  number of sources. It must be a positive integer.
 #' @param muP (q,ncol(Y))-dimensional prior mean matrix for the source
-#'   composition matrix P, where q is the number of sources. Each row of muP
-#'    should have at least q-1 zero elements
-#'    (the identifiability condition C1 in Park and Oh (2015)). For the remaining free elements,
-#'    nonnegative numbers can be assigned (default=0.5).
+#'   composition matrix P, where q is the number of sources.
+#'   Zeros need to be assigned to prespecified elements of muP to satisfy
+#'   the identifiability condition C1. For the remaining free elements,
+#'   any nonnegative numbers (between 0 and 1 preferably) can be assigned.
+#'   If no or an insufficient number of zeros are preassigned in muP,
+#'   estimation can still be performed but the resulting estimates may
+#'   be subject to rotational ambiguities. (default=0.5 for nonzero elements ).
 #' @param errdist error distribution: either "norm" for normal distribution or "t"
 #' for t distribution (default="norm")
 #' @param df degrees of freedom of a t-distribution when errdist="t" (default=4)
@@ -33,8 +36,7 @@
 #' @param nIter number of iterations for monitoring samples from MCMC
 #'   (default=5000). \code{nIter} samples are saved in each chain of M CMC.
 #' @param nThin thinning interval for monitoring samples from MCMC (default=1)
-#' @param P.init initial value of the source composition matrix P. It should
-#'    satisfy the identifiability conditions C1-C2 of Park and Oh (2015).
+#' @param P.init initial value of the source composition matrix P.
 #'    If omitted, zeros are assigned to the elements corresponding to
 #'    zero elements in muP  and the nonzero elements of P.init will be
 #'     randomly generated from a uniform distrbution.
