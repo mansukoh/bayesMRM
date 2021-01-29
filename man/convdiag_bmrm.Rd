@@ -14,7 +14,7 @@ convdiag_bmrm(x , var="P", convdiag="heidel",print=TRUE,...)
 "Sigma" (error variance).}
 
 \item{convdiag}{vector of convergence diagnostic measures. It should be any subvector
-of ("geweke", "heidel") (default="geweke").}
+of ("geweke", "heidel","raftery" ) (default="geweke").}
 
 \item{print}{TRUE/FALSE, print convergence diagnostics results (default=TRUE)}
 
@@ -29,11 +29,14 @@ A list of  convergence diagnostics results
   \item{heidel}{Heidelberger and Welch's test statistics
 and p-value if \code{convdiag} includes "heidel"; NULL if
 \code{convdiag} does not include "heidel"}
+\item{raftery}{Raftery and Lewis's estimates of burn-in, minimum number of iterations,
+and thinning if \code{convdiag} includes "raftery"; NULL if
+\code{convdiag} does not include "raftery"}
 }
 }
 \description{
 Compute convergence diagnostic measures of
- Geweke (1992), Heidelberger and Welch (1983).
+ Geweke (1992), Heidelberger and Welch (1983), Raftery and Lewis(1992.
 }
 \details{
 Geweke's convergence diagnostic for Markov chains is based on
@@ -52,6 +55,14 @@ Geweke's convergence diagnostic for Markov chains is based on
    the null hypothesis is accepted, or 50\% of the chain has been discarded.
    We use the function  \code{heidel.diag} (with default option) which provides
    the test results and p-values.
+
+Raftery and Lewis's diagnostic estimates the minimum number of iterations, burn-in,
+thinning interval for zero autocorrelation, satisfying specified conditions
+regarding quantile \eqn{q} of parameters of interest. The conditions are
+specified by a posterior quantile \eqn{q} of parameters, an acceptable
+tolerance (accuracy) \eqn{r} for \eqn{q}, a probability \eqn{s} of being
+within the interval \eqn{q-r, q+r}.
+We use the function  \code{raftery.diag} (with default option).
 }
 \examples{
 \dontrun{
@@ -59,9 +70,10 @@ data(Elpaso)
 Y=Elpaso$Y ; muP=Elpaso$muP
 q=nrow(muP)
 out.Elpaso <- bmrm(Y,q,muP, nAdapt=1000,nBurnIn=5000,nIter=5000,nThin=1)
-conv1<-convdiag_bmrm(out.Elpaso,var="P")
+conv1<-convdiag_bmrm(out.Elpaso,var="P",convdiag="raftery" )
 conv2<-convdiag_bmrm(out.Elpaso,var="A", convdiag="geweke")
 conv3<-convdiag_bmrm(out.Elpaso,var="Sigma", convdiag=c("geweke","heidel"))
+conv4<-convdiag_bmrm(out.Elpaso,var="Sigma", convdiag=c("geweke","heidel", "raftery"))
 }
 }
 \references{
@@ -79,4 +91,11 @@ Opns Res., 31, 1109-44,Oxford, UK.
 
 Plummer, M., Best, N., Cowles, K. and Vines K. (2006) CODA:
 Convergence Diagnosis and Output Analysis for MCMC, R News, Vol 6, pp. 7-11.
+
+Raftery, A.E. and Lewis, S.M. (1992). One long run with diagnostics:
+Implementation strategies for Markov chain Monte Carlo. Statistical Science, 7, 493-497.
+
+Raftery, A.E. and Lewis, S.M. (1995). The number of iterations,
+ convergence diagnostics and generic Metropolis algorithms. In Practical Markov Chain Monte
+ Carlo (W.R. Gilks, D.J. Spiegelhalter and S. Richardson, eds.). London, U.K.: Chapman and Hall.
 }
