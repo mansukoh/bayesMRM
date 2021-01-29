@@ -1,6 +1,6 @@
 #' Convergence Diagnostics on MCMC samples in \code{bmrm}
 #' @description Compute convergence diagnostic measures of
-#'  Geweke (1992), Heidelberger and Welch (1983).
+#'  Geweke (1992), Heidelberger and Welch (1983), Raftery and Lewis(1992.
 #' @usage convdiag_bmrm(x , var="P", convdiag="heidel",print=TRUE,...)
 #' @param x an object of class \code{bmrm}, the output of the \code{bmrm} function
 #' @param var name of a variable for convergence disagnostics. It should be one of "A" (source contribution matrix),

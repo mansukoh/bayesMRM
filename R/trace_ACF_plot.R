@@ -1,6 +1,6 @@
 #'
 #' @description Produce trace and Auto-Correlation Function
-#'   plots (with Effective sample size) of MCMC samples
+#'   plots (along with Effective sample size) of MCMC samples
 #'  of  elements of A, nonzero elements of P, elements of Sigma.
 #' @title Trace and/or ACF plots of elements of a variable
 #'  in \code{bmrm} object
@@ -10,7 +10,8 @@
 #' "A" (source contribution matrix),
 #' "P" (source composition matrix),
 #' "Sigma" (error variance).
-#' @param ACF TRUE/FALSE  IF TRUE ACF plot will be provided and Effective sample size(dafault: FALSE)
+#' @param ACF TRUE/FALSE  IF TRUE ACF plot will be provided along with
+#'  Effective sample size(dafault: FALSE)
 #' @param nplot  number of elements of 'var' for trace and/or ACF plot. If 'nplot' is
 #'  smaller than the total number of elements of 'var' then plots of
 #'  'nplot' selected elements will be drawn. Otherwise, trace/ACF plots of  all
