@@ -7,7 +7,7 @@
 #' "P" (source composition or profile matrix), or
 #' "Sigma" (error variance).
 #' @param convdiag  vector of convergence diagnostic measures. It should be any subvector
-#'  of ("geweke", "heidel") (default="geweke").
+#'  of ("geweke", "heidel","raftery" ) (default="geweke").
 #' @param print TRUE/FALSE, print convergence diagnostics results (default=TRUE)
 #' @param ... arguments to be passed to methods
 #'
@@ -19,6 +19,9 @@
 #'   \item{heidel}{Heidelberger and Welch's test statistics
 #' and p-value if \code{convdiag} includes "heidel"; NULL if
 #' \code{convdiag} does not include "heidel"}
+#' \item{raftery}{Raftery and Lewis's estimates of burn-in, minimum number of iterations,
+#' and thinning if \code{convdiag} includes "raftery"; NULL if
+#' \code{convdiag} does not include "raftery"}
 #' }
 #'
 #' @details
@@ -39,8 +42,8 @@
 #'    We use the function  \code{heidel.diag} (with default option) which provides
 #'    the test results and p-values.
 #'
- #' Raftery and Lewis's diagnostic estimates the minimum chain length, burn-in,
- #' thinning interval for zero autocorrelation satisfying specified conditions
+ #' Raftery and Lewis's diagnostic estimates the minimum number of iterations, burn-in,
+ #' thinning interval for zero autocorrelation, satisfying specified conditions
  #' regarding quantile \eqn{q} of parameters of interest. The conditions are
  #' specified by a posterior quantile \eqn{q} of parameters, an acceptable
  #' tolerance (accuracy) \eqn{r} for \eqn{q}, a probability \eqn{s} of being
@@ -149,8 +152,7 @@ convdiag_bmrm <- function(x , var="P", convdiag="geweke",print=TRUE,...){
     raftery_table <- base::data.frame('burn in' = raftery1[,1],
                                      'min num of iteration' =raftery1[,2],
                                      'thinning' =raftery1[,3])
-                                     #,
-                                     #'dependence factor' =raftery1[,4])
+
     if(print){
       base::cat("\n\n")
       base::cat("Raftery Diagnostics:\n\n")
