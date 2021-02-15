@@ -22,7 +22,7 @@ of ("geweke", "heidel","raftery" ) (default="geweke").}
 \value{
 A list of  convergence diagnostics results
 \describe{
-  \item{convdiag}{selected convergence diagnostic method}
+  \item{convdiag}{selected convergence diagnostic methods}
   \item{geweke}{Geweke's z-scores and p-values if \code{convdiag}
  includes "geweke", NULL if \code{convdiag} does not include "geweke"}
   \item{heidel}{Heidelberger and Welch's stationary test results
