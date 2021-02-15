@@ -10,6 +10,9 @@ idCond_check(P)
 \arguments{
 \item{P}{source composition matrix in multivariate receptor model}
 }
+\value{
+idCond TRUE if all the conditions are satisfied, FALSE otherwise
+}
 \description{
 Check the identifiability conditions C1-C2 of Park and Oh (2015).
 }

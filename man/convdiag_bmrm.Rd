@@ -4,16 +4,15 @@
 \alias{convdiag_bmrm}
 \title{Convergence Diagnostics on MCMC samples in \code{bmrm}}
 \usage{
-convdiag_bmrm(x , var="P", convdiag="heidel",print=TRUE,...)
+convdiag_bmrm(x , var="P", convdiag="geweke",print=TRUE,...)
 }
 \arguments{
 \item{x}{an object of class \code{bmrm}, the output of the \code{bmrm} function}
 
-\item{var}{name of a variable for convergence disagnostics. It should be one of "A" (source contribution matrix),
-"P" (source composition or profile matrix), or
-"Sigma" (error variance).}
+\item{var}{name of a variable to which convergence disagnostics apply. It should be one of "A" (source contribution matrix),
+"P" (source composition or profile matrix), "Sigma" (error variance).}
 
-\item{convdiag}{vector of convergence diagnostic measures. It should be any subvector
+\item{convdiag}{vector of convergence diagnostic methods. It should be any subvector
 of ("geweke", "heidel","raftery" ) (default="geweke").}
 
 \item{print}{TRUE/FALSE, print convergence diagnostics results (default=TRUE)}
@@ -23,11 +22,11 @@ of ("geweke", "heidel","raftery" ) (default="geweke").}
 \value{
 A list of  convergence diagnostics results
 \describe{
-  \item{convdiag}{selected convergence diagnostic measures}
-  \item{geweke}{Geweke's statistics and p-value if \code{convdiag}
+  \item{convdiag}{selected convergence diagnostic method}
+  \item{geweke}{Geweke's z-scores and p-values if \code{convdiag}
  includes "geweke", NULL if \code{convdiag} does not include "geweke"}
-  \item{heidel}{Heidelberger and Welch's test statistics
-and p-value if \code{convdiag} includes "heidel"; NULL if
+  \item{heidel}{Heidelberger and Welch's stationary test results
+and p-values if \code{convdiag} includes "heidel"; NULL if
 \code{convdiag} does not include "heidel"}
 \item{raftery}{Raftery and Lewis's estimates of burn-in, minimum number of iterations,
 and thinning if \code{convdiag} includes "raftery"; NULL if
@@ -35,8 +34,8 @@ and thinning if \code{convdiag} includes "raftery"; NULL if
 }
 }
 \description{
-Compute convergence diagnostic measures of
- Geweke (1992), Heidelberger and Welch (1983), Raftery and Lewis(1992.
+Compute convergence diagnostics of
+ Geweke (1992), Heidelberger and Welch (1983), Raftery and Lewis(1992).
 }
 \details{
 Geweke's convergence diagnostic for Markov chains is based on
@@ -45,7 +44,8 @@ Geweke's convergence diagnostic for Markov chains is based on
  If the samples are drawn from the stationary distribution of the chain,
  the two means should be equal and Geweke's statistic has an asymptotically
  standard normal distribution. We use the function \code{geweke.diag} in \bold{coda}
-  package (with default option) which provides the test statistics (standard Z-scores) and the upper bound of
+  package (with default option) which provides the test statistics
+  (standard Z-scores) and the upper bound of
   and p-values.
 
  Heidelberger and Welch's  convergence diagnostic tests the
@@ -53,8 +53,8 @@ Geweke's convergence diagnostic for Markov chains is based on
   The test is successively applied, firstly to the whole chain, then after
    discarding the first 10\%, 20\%, ... of the chain until either
    the null hypothesis is accepted, or 50\% of the chain has been discarded.
-   We use the function  \code{heidel.diag} (with default option) which provides
-   the test results and p-values.
+   We use the function  \code{heidel.diag} (with default option)
+   which provides the staionary test results and p-values.
 
 Raftery and Lewis's diagnostic estimates the minimum number of iterations, burn-in,
 thinning interval for zero autocorrelation, satisfying specified conditions

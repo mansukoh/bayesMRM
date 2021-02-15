@@ -1,23 +1,22 @@
 #' Convergence Diagnostics on MCMC samples in \code{bmrm}
-#' @description Compute convergence diagnostic measures of
-#'  Geweke (1992), Heidelberger and Welch (1983), Raftery and Lewis(1992.
-#' @usage convdiag_bmrm(x , var="P", convdiag="heidel",print=TRUE,...)
+#' @description Compute convergence diagnostics of
+#'  Geweke (1992), Heidelberger and Welch (1983), Raftery and Lewis(1992).
+#' @usage convdiag_bmrm(x , var="P", convdiag="geweke",print=TRUE,...)
 #' @param x an object of class \code{bmrm}, the output of the \code{bmrm} function
-#' @param var name of a variable for convergence disagnostics. It should be one of "A" (source contribution matrix),
-#' "P" (source composition or profile matrix), or
-#' "Sigma" (error variance).
-#' @param convdiag  vector of convergence diagnostic measures. It should be any subvector
+#' @param var name of a variable to which convergence disagnostics apply. It should be one of "A" (source contribution matrix),
+#' "P" (source composition or profile matrix), "Sigma" (error variance).
+#' @param convdiag  vector of convergence diagnostic methods. It should be any subvector
 #'  of ("geweke", "heidel","raftery" ) (default="geweke").
 #' @param print TRUE/FALSE, print convergence diagnostics results (default=TRUE)
 #' @param ... arguments to be passed to methods
 #'
 #' @return A list of  convergence diagnostics results
 #' \describe{
-#'   \item{convdiag}{selected convergence diagnostic measures}
-#'   \item{geweke}{Geweke's statistics and p-value if \code{convdiag}
+#'   \item{convdiag}{selected convergence diagnostic methods}
+#'   \item{geweke}{Geweke's z-scores and p-values if \code{convdiag}
 #'  includes "geweke", NULL if \code{convdiag} does not include "geweke"}
-#'   \item{heidel}{Heidelberger and Welch's test statistics
-#' and p-value if \code{convdiag} includes "heidel"; NULL if
+#'   \item{heidel}{Heidelberger and Welch's stationary test results
+#' and p-values if \code{convdiag} includes "heidel"; NULL if
 #' \code{convdiag} does not include "heidel"}
 #' \item{raftery}{Raftery and Lewis's estimates of burn-in, minimum number of iterations,
 #' and thinning if \code{convdiag} includes "raftery"; NULL if
@@ -31,7 +30,8 @@
 #'  If the samples are drawn from the stationary distribution of the chain,
 #'  the two means should be equal and Geweke's statistic has an asymptotically
 #'  standard normal distribution. We use the function \code{geweke.diag} in \bold{coda}
-#'   package (with default option) which provides the test statistics (standard Z-scores) and the upper bound of
+#'   package (with default option) which provides the test statistics
+#'   (standard Z-scores) and the upper bound of
 #'   and p-values.
 #'
 #'  Heidelberger and Welch's  convergence diagnostic tests the
@@ -39,8 +39,8 @@
 #'   The test is successively applied, firstly to the whole chain, then after
 #'    discarding the first 10\%, 20\%, ... of the chain until either
 #'    the null hypothesis is accepted, or 50\% of the chain has been discarded.
-#'    We use the function  \code{heidel.diag} (with default option) which provides
-#'    the test results and p-values.
+#'    We use the function  \code{heidel.diag} (with default option)
+#'    which provides the staionary test results and p-values.
 #'
  #' Raftery and Lewis's diagnostic estimates the minimum number of iterations, burn-in,
  #' thinning interval for zero autocorrelation, satisfying specified conditions
@@ -114,10 +114,12 @@ convdiag_bmrm <- function(x , var="P", convdiag="geweke",print=TRUE,...){
 
     mcmcSamples = base::as.matrix(var.codaSamples)
     geweke1 = coda::geweke.diag(mcmcSamples, frac1=0.1, frac2=0.5)
+    if(class(geweke1)=="list") geweke1=geweke1[[1]]
     geweke_pvalue <- 2*stats::pnorm(-base::abs(geweke1$z))
-    geweke_table <- base::data.frame('statistics' = geweke1$z,
-                                     ' p value' =
+    geweke_table <- base::data.frame('z-score' = geweke1$z,
+                                     'p value' =
                                       round(geweke_pvalue, digits = 4))
+
     if(print){
       cat("\n\n")
       cat("Geweke Diagnostics :\n\n")
@@ -132,8 +134,11 @@ convdiag_bmrm <- function(x , var="P", convdiag="geweke",print=TRUE,...){
     mcmcSamples=base::as.matrix(var.codaSamples)
 
     heidel1 <- coda::heidel.diag(mcmcSamples, eps=0.1, pvalue=0.05)
-    heidel_table <- base::data.frame(' test' = heidel1[,1],
+    if(class(heidel1)=="list") heidel1=heidel1[[1]]
+    heidel_table <- base::data.frame('stest' = heidel1[,1],
                                         'p value' =round(heidel1[,3], 4))
+
+    #print("Put")
     if(print){
       base::cat("\n\n")
       base::cat("Heidel Diagnostics:\n\n")
@@ -147,7 +152,9 @@ convdiag_bmrm <- function(x , var="P", convdiag="geweke",print=TRUE,...){
   if ("raftery" %in% convdiag){
     mcmcSamples=base::as.matrix(var.codaSamples)
 
-    raftery1 <- coda::raftery.diag(mcmcSamples,q=0.025, r=0.005, s=0.95, converge.eps=0.001)
+    raftery1 <- coda::raftery.diag(mcmcSamples,q=0.025,
+                                   r=0.005, s=0.95, converge.eps=0.001)
+    if(class(raftery1 )=="list") raftery1 =raftery1 [[1]]
     raftery1=raftery1$resmatrix
     raftery_table <- base::data.frame('burn in' = raftery1[,1],
                                      'min num of iteration' =raftery1[,2],

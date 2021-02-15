@@ -10,13 +10,14 @@
 #' "A" (source contribution matrix),
 #' "P" (source composition matrix),
 #' "Sigma" (error variance).
-#' @param ACF TRUE/FALSE  IF TRUE ACF plot will be provided along with
-#'  Effective sample size(dafault: FALSE)
-#' @param nplot  number of elements of 'var' for trace and/or ACF plot. If 'nplot' is
+#' @param ACF TRUE/FALSE  if TRUE ACF plots will be provided along with
+#'  effective sample sizes(dafault: FALSE)
+#' @param nplot  number of elements of 'var' for trace and/or ACF plots.
+#' If 'nplot' is
 #'  smaller than the total number of elements of 'var' then plots of
-#'  'nplot' selected elements will be drawn. Otherwise, trace/ACF plots of  all
+#'  'nplot' selected elements will be drawn. Otherwise, trace and/or ACF plots of  all
 #'   elements will be drawn.
-#'    (default=0  implies that all elements will be selected if var="P" or "Sigma"
+#'    (default=0  implies that all elements will be selected if var="P" or "Sigma",
 #'    and the first 12 elements will be selected  if  var="A")
 #' @param irow row index of A/P matrix or index of element of Sigma vector.
 #'     Plots of 'nplot' elements starting from (irow, icol) element of A/P or
@@ -36,7 +37,6 @@
 #' trace_ACF_plot(out.Elpaso,"P", ACF=T,saveFile=T )
 #' trace_ACF_plot(out.Elpaso,"A",ACF=T, nplot=12, irow=2, icol=3)
 #' }
-#'
 
 trace_ACF_plot <- function(x,var="P", ACF=FALSE, nplot=0,irow=1, icol=1, saveFile=FALSE,...){
 
@@ -91,14 +91,14 @@ trace_ACF_plot <- function(x,var="P", ACF=FALSE, nplot=0,irow=1, icol=1, saveFil
       }
 
       y <- coda::mcmc.list(x$codaSamples[,i])
-      xp <- as.vector(stats::time(y))
+      xp <- as.vector(stats::time(y)-x$nBurnIn)
       yp <- if (coda::nvar(y) > 1) {
         y[, j, drop = TRUE]
       } else {
         y
       }
       yp <- do.call("cbind", yp)
-      graphics::matplot(xp,yp,xlab="sample #",ylab="",type ='l',
+      graphics::matplot(xp,yp,xlab="sample #",ylab=var,type ='l',
            col = 4:4,main=var.list[i])
          ESS<-coda::effectiveSize(y)
       if (ACF==T) stats::acf(as.matrix(y),main=paste0("ESS=",round(ESS,2)))
@@ -120,14 +120,14 @@ trace_ACF_plot <- function(x,var="P", ACF=FALSE, nplot=0,irow=1, icol=1, saveFil
     for(i in sel.id){
       j<-j+1
       y <- coda::mcmc.list(x$codaSamples[,i])
-      xp <- as.vector(stats::time(y))
+      xp <- as.vector(stats::time(y)-x$nBurnIn)
       yp <- if (coda::nvar(y) > 1) {
         y[, j, drop = TRUE]
       } else {
         y
       }
       yp <- do.call("cbind", yp)
-      graphics::matplot(xp,yp,xlab="sample #",ylab="",type ='l',
+      graphics::matplot(xp,yp,xlab="sample #",ylab=var,type ='l',
                         col = 4:4,main=var.list[i])
       ESS<-coda::effectiveSize(y)
       if(ACF == T) stats:: acf(as.matrix(y),main=paste0("ESS=",round(ESS,2)))

@@ -1,7 +1,8 @@
 #' @name bmrm
 #' @description  Generate posterior samples of the source
 #'  composition matrix  P, the source contribution matrix A,
-#'  and the error variance \eqn{\Sigma} using JAGS.
+#'  and the error variance \eqn{\Sigma} using JAGS, and computes
+#'  estimates of A,P,\eqn{\Sigma}.
 #' @title Bayesian Analysis of Multivariate Receptor Modeling
 #' @usage bmrm(Y, q, muP,errdist="norm", df=4,
 #'             varP.free=100, xi=NULL, Omega=NULL,
@@ -34,7 +35,7 @@
 #' @param nAdapt  number of iterations for adaptation in JAGS (default=1000)
 #' @param nBurnIn number of iterations for the burn-in period in MCMC (default=5000)
 #' @param nIter number of iterations for monitoring samples from MCMC
-#'   (default=5000). \code{nIter} samples are saved in each chain of M CMC.
+#'   (default=5000). \code{nIter} samples are saved in each chain of MCMC.
 #' @param nThin thinning interval for monitoring samples from MCMC (default=1)
 #' @param P.init initial value of the source composition matrix P.
 #'    If omitted, zeros are assigned to the elements corresponding to
@@ -69,7 +70,8 @@
 #'   \item{Y.hat}{predicted value of Y computed from A.hat*P.hat}
 #'   \item{residual}{Y-Y.hat}
 #'   \item{codaSamples}{MCMC posterior samples of A, P, and \eqn{\Sigma} in class "mcmc.list"}
-#'   \item{nIter}{number of MCMC iterations per chain for monitoring samples from MCMC}
+#'   \item{nIter}{number of MCMC iterations per chain for monitoring samples from
+#'    MCMC}
 #'   \item{nBurnIn}{number of iterations for the burn-in period in MCMC}
 #'   \item{nThin}{thinning interval for monitoring samples from MCMC}
 #' }
@@ -77,6 +79,7 @@
 #'
 #' @details
 #' \emph{Model}
+#'
 #' The basic model for Bayesian multivariate receptor model is
 #'   as follows:
 #'
@@ -117,9 +120,9 @@
 #'
 #'       independently for  \eqn{k = 1,\cdots,q; j = 1,\cdots,J }.
 #'       }
-#'   \item Prior distribution of \eqn{\sigma_j} is \eqn{IG(a0, b0)}, i.e.,
+#'   \item Prior distribution of \eqn{\sigma_j^2} is \eqn{IG(a0, b0)}, i.e.,
 #'      \itemize{
-#'       \item \eqn{1/\sigma_j} is \eqn{Gamma(a0, b0)} having mean \eqn{a0/b0},
+#'       \item \eqn{1/\sigma_j^2 \sim Gamma(a0, b0)}, having mean \eqn{a0/b0},
 #'   independently for \eqn{j=1,...,J}.
 #'      }
 #' }
@@ -136,7 +139,7 @@
 #'  }
 #'
 #' @references Park, E.S. and Oh, M-S. (2015), Robust Bayesian Multivariate
-#'  Receptor Modeling, CHEMOMETRICS AND INTELLIGENT LABORATORY SYSTEMS,
+#'  Receptor Modeling, Chemometrics and intelligent laboratory systems,
 #'  149, 215-226.
 #' @references Plummer, M. 2003. JAGS: A program for analysis of Bayesian
 #' graphical models using Gibbs sampling. Proceedings of the 3rd
@@ -149,12 +152,10 @@
 #'
 #' @examples
 #' \dontrun{
-#'
 #' data(Elpaso); Y=Elpaso$Y ; muP=Elpaso$muP ; q=nrow(muP)
 #' out.Elpaso <- bmrm(Y,q,muP)
 #' summary(out.Elpaso)
 #' plot(out.Elpaso)
-#'
 #' }
 
 bmrm = function(Y,q,muP,errdist="norm", df=4,

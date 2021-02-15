@@ -15,11 +15,9 @@
 #' Y=Elpaso$Y ; muP=Elpaso$muP
 #' q=nrow(muP)
 #' out.Elpaso <- bmrm(Y,q,muP, nAdapt=1000,nBurnIn=5000,nIter=5000,nThin=1)
-#'
 #' pcplot(out.Elpaso)
 #' pcplot(out.Elpaso,G3D=TRUE)
 #' }
-
 
 pcplot <- function(x,P0=NULL,G3D=FALSE,...){
 

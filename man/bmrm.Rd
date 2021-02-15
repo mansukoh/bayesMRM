@@ -49,7 +49,7 @@ source contribution vector at time t (default=identity matrix)}
 \item{nBurnIn}{number of iterations for the burn-in period in MCMC (default=5000)}
 
 \item{nIter}{number of iterations for monitoring samples from MCMC
-(default=5000). \code{nIter} samples are saved in each chain of M CMC.}
+(default=5000). \code{nIter} samples are saved in each chain of MCMC.}
 
 \item{nThin}{thinning interval for monitoring samples from MCMC (default=1)}
 
@@ -91,7 +91,8 @@ in \code{bmrm} object
   \item{Y.hat}{predicted value of Y computed from A.hat*P.hat}
   \item{residual}{Y-Y.hat}
   \item{codaSamples}{MCMC posterior samples of A, P, and \eqn{\Sigma} in class "mcmc.list"}
-  \item{nIter}{number of MCMC iterations per chain for monitoring samples from MCMC}
+  \item{nIter}{number of MCMC iterations per chain for monitoring samples from
+   MCMC}
   \item{nBurnIn}{number of iterations for the burn-in period in MCMC}
   \item{nThin}{thinning interval for monitoring samples from MCMC}
 }
@@ -99,10 +100,12 @@ in \code{bmrm} object
 \description{
 Generate posterior samples of the source
  composition matrix  P, the source contribution matrix A,
- and the error variance \eqn{\Sigma} using JAGS.
+ and the error variance \eqn{\Sigma} using JAGS, and computes
+ estimates of A,P,\eqn{\Sigma}.
 }
 \details{
 \emph{Model}
+
 The basic model for Bayesian multivariate receptor model is
   as follows:
 
@@ -143,9 +146,9 @@ The basic model for Bayesian multivariate receptor model is
 
       independently for  \eqn{k = 1,\cdots,q; j = 1,\cdots,J }.
       }
-  \item Prior distribution of \eqn{\sigma_j} is \eqn{IG(a0, b0)}, i.e.,
+  \item Prior distribution of \eqn{\sigma_j^2} is \eqn{IG(a0, b0)}, i.e.,
      \itemize{
-      \item \eqn{1/\sigma_j} is \eqn{Gamma(a0, b0)} having mean \eqn{a0/b0},
+      \item \eqn{1/\sigma_j^2 \sim Gamma(a0, b0)}, having mean \eqn{a0/b0},
   independently for \eqn{j=1,...,J}.
      }
 }
@@ -163,17 +166,15 @@ The basic model for Bayesian multivariate receptor model is
 }
 \examples{
 \dontrun{
-
 data(Elpaso); Y=Elpaso$Y ; muP=Elpaso$muP ; q=nrow(muP)
 out.Elpaso <- bmrm(Y,q,muP)
 summary(out.Elpaso)
 plot(out.Elpaso)
-
 }
 }
 \references{
 Park, E.S. and Oh, M-S. (2015), Robust Bayesian Multivariate
- Receptor Modeling, CHEMOMETRICS AND INTELLIGENT LABORATORY SYSTEMS,
+ Receptor Modeling, Chemometrics and intelligent laboratory systems,
  149, 215-226.
 
 Plummer, M. 2003. JAGS: A program for analysis of Bayesian

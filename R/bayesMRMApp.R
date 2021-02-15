@@ -6,8 +6,12 @@
 #'  \itemize{
 #'  \item plots of the posterior means and 95\% posterior intervals of parameters in
 #' an object of class \code{bmrm}.
+#'\item tables of the posterior means of parameters in
+#' an object of class \code{bmrm}.
 #'  \item tables of the posterior quantiles of parameters in
 #' an object of class \code{bmrm}, for prob=(0.025, 0.05, 0.25, 0.5, 0.75, 0.95, 0.975).
+#' \item  tables of convergence diagnostics of parameters in
+#' an object of class \code{bmrm}.
 #'  \item 3-dimensional dynamic principal component plots of data (Y) and
 #' source profiles (rows of the estimated source composition matrix P)
 #' in an object of class \code{bmrm}. The plot can be rotated by moving the cursor.
@@ -44,26 +48,13 @@ bayesMRMApp<-function(x){
                               label = shiny::h3((shiny::strong("Parameter"))),
                               choices=list("P","A","Sigma"),selected="P"),
 
-          #shiny::br(),
-          #shiny::h4(shiny::strong("Conv Diag")),
-          #shiny::radioButtons("convdiag",
-          #                    label = shiny::h4(" "),
-          #                    choices=list( "geweke",
-          #                                 "heidel"),selected="geweke"),
+          shiny::br(),
+          shiny::h4(shiny::strong("Conv Diag")),
+          shiny::radioButtons("convdiag",
+                              label = shiny::h4(" "),
+                              choices=list("geweke","heidel","raftery"),
+                              selected="geweke"),
 
-        # shiny::br(),
-        #  shiny::h4(shiny::strong("ID for Trace_ACF plot")),
-        #  shiny::numericInput("source",
-        #                      label = shiny::h4("Source ID"),
-        #                      value=1,min=1,max=x$nsource),
-        #  shiny::selectInput("var",
-        #                     label = shiny::h4("Variable ID"),
-        #                     #value=1,min=1,max=x$nvar),
-        #                     choices=varchoice,
-        #                    selected=1),
-        # shiny::numericInput("obs",
-        #                      label = shiny::h4("Observation ID"),
-        #                      value=1,min=1,max=x$nobs),
         width=3),
 
 
@@ -75,14 +66,10 @@ bayesMRMApp<-function(x){
                             shiny::tableOutput("showest")),
             shiny::tabPanel(shiny::h4(shiny::strong("Quantiles")),
                             shiny::tableOutput("showquant")),
-           # shiny::tabPanel(shiny::h4(shiny::strong("ConvDiag")),
-          #                  shiny::tableOutput("showconv")),
+            shiny::tabPanel(shiny::h4(shiny::strong("ConvDiag")),
+                            shiny::tableOutput("showconv")),
           shiny::tabPanel(shiny::h4(shiny::strong("PC Plot")),
                           rgl::rglwidgetOutput("pcplot")),
-
-#                     shiny::tabPanel(shiny::h4(shiny::strong("Trace_ACF Plot")),
-#                                      shiny::plotOutput("showMCMC_ele"))
-#
           shiny::tabPanel(shiny::h4(shiny::strong("Trace_ACF Plot")),
                             shiny::plotOutput("showMCMC"))
           )
@@ -159,40 +146,42 @@ bayesMRMApp<-function(x){
         rgl::rglwidget()
       })
 
-    #  output$showconv <- shiny::renderTable({
-    #    T<-convdiag_bmrm(x,var=input$type,convdiag=input$convdiag,
-    #                     print=FALSE)
-    #    if(input$convdiag == "geweke"){
-    #      T <- T$geweke
-    #    } else if(input$convdiag == "heidel"){
-    #      T <- T$heidel
-    #    }
-    #    keep.colname<-colnames(T)
-    #    if(input$type=="A"){
-    #      T<-data.frame(source=rep(paste0("source",1:x$nsource),each=x$nobs),
-    #                    obs=rep(1:x$nobs,x$nsource),T)
-    #      colnames(T)[-(1:2)]<-keep.colname
-    #      T
-    #    } else if(input$type=="P"){
-    #      T<-data.frame(source=rep(paste0("source",1:x$nsource),x$nvar),
-    #                    variable=rep(colnames(x$Y),each=x$nsource),T)
-    #      colnames(T)[-(1:2)]<-keep.colname
-    #      T
-    #    } else if(input$type=="Sigma"){
-    #      T=data.frame(variable=colnames(x$Y),T)
-    #      colnames(T)[-1]<-keep.colname
-    #      T
-    #    }
-    #  })
+      output$showconv <- shiny::renderTable({
+        #print(input$convdiag)
+        #print(input$type)
+        TempT<-convdiag_bmrm(x,var=input$type,convdiag=input$convdiag,
+                         print=FALSE)
+        #print(TempT)
+        if(input$convdiag == "geweke"){
+          TT <- TempT$geweke
+        } else if(input$convdiag == "heidel"){
+          TT <- TempT$heidel
+        } else if(input$convdiag == "raftery"){
+          TT <- TempT$raftery
+        }
+        keep.colname<-colnames(TT)
+        if(input$type=="A"){
+          TTT<-data.frame(source=rep(paste0("source",1:x$nsource),each=x$nobs),
+                        obs=rep(1:x$nobs,x$nsource),TT)
+          colnames(TTT)[-(1:2)]<-keep.colname
+          TTT
+        } else if(input$type=="P"){
+          TTT<-data.frame(source=rep(paste0("source",1:x$nsource),x$nvar),
+                        variable=rep(colnames(x$Y),each=x$nsource),TT)
+          colnames(TTT)[-(1:2)]<-keep.colname
+          TTT
+        } else if(input$type=="Sigma"){
+          TTT=data.frame(variable=colnames(x$Y),TT)
+          colnames(TTT)[-1]<-keep.colname
+          TTT
+        }
+      })
 
         output$showMCMC <- shiny::renderPlot({
-          print(input$type)
+          #print(input$type)
                 trace_ACF_plot(x,var=input$type, ACF=T, nplot=6)
       })
-#      output$showMCMC_ele <- shiny::renderPlot({
-#              trace_ACF_plot_indiv(x,var=input$type,sourceID=input$source,
-#                                    varID=input$var,obsID=input$obs)
- #     })
+
     }#end server
   )#end App
   shiny::runApp(EMS_app,launch.browser=TRUE)

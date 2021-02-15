@@ -15,15 +15,16 @@ trace_ACF_plot(x,var="P", ACF=FALSE, nplot=0,irow=1, icol=1, saveFile=FALSE,...)
 "P" (source composition matrix),
 "Sigma" (error variance).}
 
-\item{ACF}{TRUE/FALSE  IF TRUE ACF plot will be provided along with
-Effective sample size(dafault: FALSE)}
+\item{ACF}{TRUE/FALSE  if TRUE ACF plots will be provided along with
+effective sample sizes(dafault: FALSE)}
 
-\item{nplot}{number of elements of 'var' for trace and/or ACF plot. If 'nplot' is
-smaller than the total number of elements of 'var' then plots of
-'nplot' selected elements will be drawn. Otherwise, trace/ACF plots of  all
- elements will be drawn.
-  (default=0  implies that all elements will be selected if var="P" or "Sigma"
-  and the first 12 elements will be selected  if  var="A")}
+\item{nplot}{number of elements of 'var' for trace and/or ACF plots.
+If 'nplot' is
+ smaller than the total number of elements of 'var' then plots of
+ 'nplot' selected elements will be drawn. Otherwise, trace and/or ACF plots of  all
+  elements will be drawn.
+   (default=0  implies that all elements will be selected if var="P" or "Sigma",
+   and the first 12 elements will be selected  if  var="A")}
 
 \item{irow}{row index of A/P matrix or index of element of Sigma vector.
 Plots of 'nplot' elements starting from (irow, icol) element of A/P or
@@ -51,5 +52,4 @@ trace_ACF_plot(out.Elpaso,"P", ACF=T)
 trace_ACF_plot(out.Elpaso,"P", ACF=T,saveFile=T )
 trace_ACF_plot(out.Elpaso,"A",ACF=T, nplot=12, irow=2, icol=3)
 }
-
 }

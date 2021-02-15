@@ -15,8 +15,6 @@ It should be one of "P"(source composition or profile matrix P),
 "A"(source contribution matrix A), "both" (both P and A), "Sigma" (error  variance).}
 
 \item{...}{arguments to be passed to methods}
-
-\item{text}{TRUE/FALSE, display the value of P.hat on the plot for P (defaut=FALSE)}
 }
 \description{
 Produce plots of the estimated
@@ -28,6 +26,6 @@ The following types of plots are drawn depending on the selected parameters:
 \itemize{
 \item P: bar plots of the posterior means with 95\% posterior intervals of elements for each row of P
 \item A: time series plots of  posterior means with 95\% posterior intervals elements for each column of A
-\item Sigma: bar plots of  posterior means with 95\% posterior intervals of elements of Sigma
+\item Sigma: posterior means with error bars for 95\% posterior intervals of elements of Sigma
  }
 }

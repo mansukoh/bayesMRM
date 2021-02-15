@@ -7,7 +7,6 @@
 #' @param type name of a variable (default="P").
 #' It should be one of "P"(source composition or profile matrix P),
 #' "A"(source contribution matrix A), "both" (both P and A), "Sigma" (error  variance).
-#' @param text TRUE/FALSE, display the value of P.hat on the plot for P (defaut=FALSE)
 #' @param ... arguments to be passed to methods
 #'
 #' @details
@@ -15,7 +14,7 @@
 #' \itemize{
 #' \item P: bar plots of the posterior means with 95\% posterior intervals of elements for each row of P
 #' \item A: time series plots of  posterior means with 95\% posterior intervals elements for each column of A
-#' \item Sigma: bar plots of  posterior means with 95\% posterior intervals of elements of Sigma
+#' \item Sigma: posterior means with error bars for 95\% posterior intervals of elements of Sigma
 #'  }
 #' @export
 #' @aliases plot
@@ -50,6 +49,7 @@ plot.bmrm <- function(x,type="both",...){
             ggplot2::xlab("obs")
   }
   if(type=="P"| type=="both"){
+    Pid = NULL
     ggplot.data<-data.frame(K=paste("source",rep(1:x$nsource,each=x$nvar)),
                             #LB=x$P.quantiles[,"2.5%"]*100,
                             LB=c( t( matrix(x$P.quantiles[,"2.5%"]*100,
@@ -73,6 +73,7 @@ plot.bmrm <- function(x,type="both",...){
     #              nudge_y=3,nudge_x=-0.3)
   }
   if(type=="Sigma"){
+    Sigma.mean =  NULL
     ggplot.data<-data.frame(LB=x$Sigma.quantiles[,"2.5%"]*100,
                             Med=x$Sigma.quantiles[,"50%"]*100,
                             UB=x$Sigma.quantiles[,"97.5%"]*100,

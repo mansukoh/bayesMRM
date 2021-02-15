@@ -3,8 +3,8 @@
 #' @title Check the identifiability conditions
 #' @usage idCond_check(P)
 #' @param P  source composition matrix in multivariate receptor model
-
-
+#' @return idCond TRUE if all the conditions are satisfied, FALSE otherwise
+#'
 idCond_check = function(P){
   q = base::nrow(P)
 
